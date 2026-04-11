@@ -34,9 +34,9 @@ const Navbar = () => {
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
             <span className="text-primary-foreground font-heading font-bold text-sm">&gt;_</span>
           </div>
-          <span className="font-heading font-bold text-lg tracking-tight text-foreground">
-            ALCHEMIST.DEV
-          </span>
+          <span className="font-heading font-bold text-lg tracking-tight bg-gradient-to-r from-[#006874] to-[#7E3FF2] bg-clip-text text-transparent">
+  ALCHEMIST.DEV
+</span>
         </Link>
 
         {/* Desktop Nav */}

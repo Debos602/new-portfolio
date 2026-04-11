@@ -50,7 +50,7 @@
   }
 
   .dark {
-    --background: 210 25% 97%;
+    --background: #F8FAFF;
     --foreground: 200 50% 15%;
   }
 }
