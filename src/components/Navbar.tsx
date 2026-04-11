@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-
+import logo from "../assets/Container.png";
 const navItems = [
   { label: "HOME", path: "/" },
   { label: "ABOUT", path: "/about" },
@@ -24,28 +24,32 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-[20px] ${
         scrolled ? "bg-background/90 backdrop-blur-md shadow-sm" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between py-4 px-6">
+      <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-heading font-bold text-sm">&gt;_</span>
-          </div>
+        <Link to="/" className="flex items-center gap-[9px]">
+         
+            <span className="text-primary-foreground font-heading font-bold text-sm">
+              <img src={logo} alt="Logo" />
+            </span>
+          
           <span className="font-heading font-bold text-lg tracking-tight bg-gradient-to-r from-[#006874] to-[#7E3FF2] bg-clip-text text-transparent">
-  ALCHEMIST.DEV
-</span>
+          ALCHEMIST.DEV
+        </span>
         </Link>
 
+      
+
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-[40px]">
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={`nav-link ${
+              className={`nav-link leading-[1.4] ${
                 location.pathname === item.path ? "nav-link-active" : ""
               }`}
             >
@@ -57,7 +61,7 @@ const Navbar = () => {
         {/* CTA */}
         <Link
           to="/contact"
-          className="hidden md:inline-flex items-center px-6 py-2.5 rounded-full bg-primary text-primary-foreground font-medium text-sm transition-all duration-200 hover:opacity-90 hover:shadow-lg"
+          className="hidden md:inline-flex items-center px-8 py-2.5 rounded-full bg-primary text-primary-foreground font-medium text-sm transition-all duration-200 hover:opacity-90 hover:shadow-lg"
         >
           Hire Me
         </Link>
@@ -86,7 +90,7 @@ const Navbar = () => {
           ))}
           <Link
             to="/contact"
-            className="block text-center px-6 py-2.5 rounded-full bg-primary text-primary-foreground font-medium text-sm"
+            className="block text-center px-8 py-2.5 rounded-full bg-primary text-primary-foreground font-medium text-sm"
             onClick={() => setMobileOpen(false)}
           >
             Hire Me

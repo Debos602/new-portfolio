@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -50,7 +50,7 @@
   }
 
   .dark {
-    --background: #F8FAFF;
+    --background: #FFFFFF;
     --foreground: 200 50% 15%;
   }
 }
@@ -62,6 +62,7 @@
 
   body {
     @apply bg-background text-foreground font-body antialiased;
+    margin-top:80px;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -82,10 +83,13 @@
   }
   .nav-link:hover {
     @apply text-foreground;
+     color: #006874;
   }
-  .nav-link-active {
-    @apply text-foreground border-b-2 border-primary pb-1;
-  }
+ .nav-link-active {
+  @apply pb-1;
+  color: #006874;
+  border-bottom: 2px solid #006874;
+}
 
   .card-skill {
     @apply bg-card rounded-2xl p-8 transition-all duration-300;
@@ -106,4 +110,11 @@
   .section-bg {
     @apply bg-gradient-to-b from-background to-secondary/30;
   }
+}
+.container{
+  max-width: 1280px;
+  padding-right: 45px;
+  padding-left: 45px;
+  margin-right: auto;
+  margin-left: auto;
 }

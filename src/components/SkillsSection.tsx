@@ -60,8 +60,33 @@ const SkillsSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="section-bg py-24">
-      <div className="container mx-auto px-6">
+    <section ref={sectionRef} className="section-bg py-24 relative overflow-hidden">
+
+      {/* Gradient 1 — Cyan #00EEFC (8% → 0%) */}
+      <div
+        className="absolute top-0 right-[200px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(0,238,252,0.08) 0%, rgba(0,238,252,0) 50%)",
+        }}
+      />
+
+      {/* Gradient 2 — Purple #7E3FF2 (5% → 0%) */}
+      <div
+        className="absolute top-20 left-[100px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(126,63,242,0.05) 0%, rgba(126,63,242,0) 50%)",
+        }}
+      />
+
+      {/* Gradient 3 — Teal #006874 (3% → 0%) */}
+      <div
+        className="absolute bottom-0 right-[488px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(0,104,116,0.03) 0%, rgba(0,104,116,0) 50%)",
+        }}
+      />
+
+      <div className="container mx-auto px-6 relative z-10">
         <div ref={headingRef} className="flex flex-col md:flex-row md:items-end md:justify-between mb-14 opacity-0">
           <div>
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-3">
