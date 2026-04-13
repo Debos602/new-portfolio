@@ -92,7 +92,7 @@
 }
 
   .card-skill {
-    @apply bg-card rounded-2xl p-8 transition-all duration-300;
+    @apply bg-card rounded-2xl p-10 transition-all duration-300;
     box-shadow: 0 2px 20px -4px hsl(210 20% 80% / 0.5);
   }
   .card-skill:hover {
