@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
-import { Terminal, Code2, Database, Cloud, Box, GitBranch, ArrowRight } from "lucide-react";
+import {  Code2} from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import profileImage from "@/assets/debos_image.png";
+import { Icon1, Icon10, Icon2, Icon3, Icon4, Icon5, Icon6, Icon7, Icon8, Icon9 } from "@/components/Icons";
 gsap.registerPlugin(ScrollTrigger);
 
 const timeline = [
@@ -64,16 +65,16 @@ const values = [
 ];
 
 const tools = [
-  { name: "MongoDB", icon: Database },
-  { name: "Express", icon: Terminal },
-  { name: "React", icon: Code2 },
-  { name: "Node.js", icon: Terminal },
-  { name: "TypeScript", icon: Code2 },
-  { name: "Git", icon: GitBranch },
-  { name: "Tailwind", icon: Box },
-  { name: "AWS", icon: Cloud },
-  { name: "Next.js", icon: Code2 },
-  { name: "Docker", icon: Box },
+  { name: "MongoDB", icon: Icon1},
+  { name: "Express", icon: Icon2 },
+  { name: "React", icon: Icon3 },
+  { name: "Node.js", icon: Icon4 },
+  { name: "TypeScript", icon: Icon5 },
+  { name: "Git VCS", icon: Icon6 },
+  { name: "Tailwind", icon: Icon7 },
+  { name: "AWS", icon: Icon8 },
+  { name: "Next.js", icon: Icon9 },
+  { name: "Docker", icon: Icon10 },
 ];
 
 const About = () => {
@@ -235,28 +236,28 @@ const About = () => {
        <div className=" h-[3px] w-16 rounded-full" style={{ background: 'linear-gradient(to right, #0891B2ff, #0891B200)' }} />
         
 
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[84px] mt-16">
-    {timeline.map((item, index) => (
-        <div key={item.role} className="relative">
-            {/* Card */}
-            <div className="p-[32px] bg-[#FFFFFF]/70 border border-[#E2E8F0] rounded-[12px] shadow-lg h-full">
-                <div className="text-[#0891B2] mb-[8.6px] font-mono">{item.period}</div>
-                <h3 className="text-[24px] leading-[1.3] font-heading font-bold text-[#0F172A] mb-[6.8px]">{item.role}</h3>
-                <p className="text-[#475569] text-sm leading-relaxed">{item.description}</p>
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[84px] mt-16">
+                {timeline.map((item, index) => (
+                    <div key={item.role} className="relative">
+                        {/* Card */}
+                        <div className="p-[32px] bg-[#FFFFFF]/70 border border-[#E2E8F0] rounded-[12px] shadow-lg h-full">
+                            <div className="text-[#0891B2] mb-[8.6px] font-mono">{item.period}</div>
+                            <h3 className="text-[24px] leading-[1.3] font-heading font-bold text-[#0F172A] mb-[6.8px]">{item.role}</h3>
+                            <p className="text-[#475569] text-sm leading-relaxed">{item.description}</p>
+                        </div>
 
-            {/* Arrow in the gap — hidden on last card */}
-            {index < timeline.length - 1 && (
-                <div className="hidden lg:flex absolute top-1/2 -right-[45px] -translate-y-1/2 translate-x-1/2 z-10 items-center justify-center">
-                   <svg width="20" height="14" viewBox="0 0 20 14" fill="#CBD5E1" xmlns="http://www.w3.org/2000/svg">
-<path d="M13 14L11.575 12.6L16.175 8H0V6H16.175L11.6 1.4L13 0L20 7L13 14Z" fill="#CBD5E1"/>
-</svg>
+                        {/* Arrow in the gap — hidden on last card */}
+                        {index < timeline.length - 1 && (
+                            <div className="hidden lg:flex absolute top-1/2 -right-[45px] -translate-y-1/2 translate-x-1/2 z-10 items-center justify-center">
+                              <svg width="20" height="14" viewBox="0 0 20 14" fill="#CBD5E1" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 14L11.575 12.6L16.175 8H0V6H16.175L11.6 1.4L13 0L20 7L13 14Z" fill="#CBD5E1"/>
+            </svg>
 
-                </div>
-            )}
-        </div>
-    ))}
-</div>
+                        </div>
+                                  )}
+                  </div>
+              ))}
+          </div>
       </div>    
             
        
@@ -274,7 +275,7 @@ const About = () => {
               <div key={v.title} className="card-skill opacity-0">
                  {v.icon}
                 <h3 className="text-xl font-heading font-bold text-[#0F172A] my-6">{v.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{v.description}</p>
+                <p className="text-[#475569] text-[16px] font-medium leading-relaxed">{v.description}</p>
               </div>
             ))}
           </div>
@@ -285,17 +286,21 @@ const About = () => {
           TOOLS
       ══════════════════════════════════════ */}
       <div className="container mx-auto px-6 py-24 relative z-10">
-        <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-12">
-          Tools of the Trade
+        <h2 className="text-3xl md:text-4xl font-heading mb-4 font-bold bg-gradient-to-r from-[#0891B2] to-[#7C3AED] bg-clip-text text-transparent text-center">
+        The Alchemist's Tools
         </h2>
+
+        <h3 className="text-center font-normal text-[#94A3B8] font-mono leading-[1.3] tracking-[2.4px] mb-16">MODERN FULL STACK MASTERY</h3>
         <div ref={toolsRef} className="flex flex-wrap gap-4">
           {tools.map(({ name, icon: Icon }) => (
             <div
               key={name}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-border/50 bg-card text-sm font-medium text-foreground hover:border-primary/40 hover:bg-primary/[0.05] transition-all duration-200 opacity-0"
+              className="inline-flex items-center gap-2 p-4 pr-[99px] rounded-[6px] border border-border/50 bg-[#FFFFFF] text-sm font-medium text-foreground hover:border-primary/40 hover:bg-primary/[0.05] transition-all duration-200 opacity-0"
             >
-              <Icon size={16} className="text-primary" />
-              {name}
+              <Icon  className="text-primary" />
+             <div className="text-[14px] font-bold leading-[1.4]">
+               {name}
+             </div>
             </div>
           ))}
         </div>
