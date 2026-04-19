@@ -4,6 +4,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import profileImage from "@/assets/debos_image.png";
 import { Icon1, Icon10, Icon2, Icon3, Icon4, Icon5, Icon6, Icon7, Icon8, Icon9 } from "@/components/Icons";
+import overlayShadow from "@/assets/Overlay+Shadow (1).png";
+import overlayShadow2 from "@/assets/Overlay+Shadow.png";
 gsap.registerPlugin(ScrollTrigger);
 
 const timeline = [
@@ -303,6 +305,41 @@ const About = () => {
              </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════
+          SHOWCASE
+      ══════════════════════════════════════ */}
+      <div className="container mx-auto px-6 pb-24 relative z-10">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">
+            Visual Design
+          </h2>
+          <div className="h-[3px] w-16 rounded-full mx-auto" style={{ background: 'linear-gradient(to right, #0891B2ff, #0891B200)' }} />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="relative group">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm">
+              <img
+                src={overlayShadow}
+                alt="Design showcase 1"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
+          <div className="relative group">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm">
+              <img
+                src={overlayShadow2}
+                alt="Design showcase 2"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
