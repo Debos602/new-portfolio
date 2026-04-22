@@ -60,9 +60,10 @@ const SkillsSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="section-bg py-24 relative overflow-hidden">
+    <section ref={sectionRef} className="bg-[#F4FAFF]">
 
-      {/* Gradient 1 — Cyan #00EEFC (8% → 0%) */}
+     <div className="container py-24 relative overflow-hidden">
+       {/* Gradient 1 — Cyan #00EEFC (8% → 0%) */}
       <div
         className="absolute top-0 right-[200px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none"
         style={{
@@ -113,6 +114,7 @@ const SkillsSection = () => {
           ))}
         </div>
       </div>
+     </div>
     </section>
   );
 };

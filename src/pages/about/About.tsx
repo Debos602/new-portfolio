@@ -148,7 +148,7 @@ const About = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden">
+    <section ref={sectionRef} className="relative overflow-hidden bg-[#F4FAFF]" >
 
       {/* ── Gradients ── */}
       <div
@@ -266,12 +266,8 @@ const About = () => {
       {/* ══════════════════════════════════════
           VALUES
       ══════════════════════════════════════ */}
-      <div className="section-bg py-24 relative z-10">
+      <div className="bg-[#F4FAFF] py-24 relative z-10">
         <div className="container mx-auto px-6">
-          
-          <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-12">
-            Core Values
-          </h2>
           <div ref={valuesRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {values.map((v) => (
               <div key={v.title} className="card-skill opacity-0">

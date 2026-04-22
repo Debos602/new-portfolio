@@ -180,7 +180,7 @@ export const Experience = () => {
   return (
     <div
       ref={sectionRef}
-      className="relative min-h-screen w-full flex flex-col items-center px-6 pt-[83px] pb-[120px] overflow-hidden bg-[#f8fbfc]"
+      className="relative min-h-screen w-full flex flex-col items-center px-6 pt-[83px] pb-[120px] overflow-hidden bg-[#F4FAFF]"
       style={{ backgroundImage: `url('${bgShape}')`, backgroundRepeat: "no-repeat", backgroundPosition: "center"}}
     >
       {/* Background glows */}

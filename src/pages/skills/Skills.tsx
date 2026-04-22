@@ -5,9 +5,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const languages = [
-  { name: "JavaScript (ES6+)", sub: "Advanced Core", pct: 95, color: "from-teal-500 to-emerald-400" },
-  { name: "TypeScript", sub: "Production Ready", pct: 90, color: "from-teal-500 to-emerald-400" },
-  { name: "Python", sub: "Scripting & ML", pct: 75, color: "from-cyan-600 to-cyan-400" },
+  { name: "JavaScript (ES6+)", sub: "Advanced Core", pct: 95, color: "from-[#006A71] to-[#8FF5FF]" },
+  { name: "TypeScript", sub: "Production Ready", pct: 90, color: "from-[#006A71] to-[#8FF5FF]" },
+  { name: "Python", sub: "Scripting & ML", pct: 75, color: "from-[#006A71] to-[#8FF5FF]" },
 ];
 
 const frameworks = [
@@ -195,197 +195,200 @@ export const Skills = () => {
   return (
     <section
       ref={sectionRef}
-      className="container bg-slate-50"
+      className="bg-[#F4FAFF] pt-[59px]"
     >
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-4">
-        <div ref={headerLineRef} className="h-px w-10 bg-slate-400" />
-        <span
-          ref={headerBadgeRef}
-          className="text-[11px] font-semibold tracking-[0.12em] uppercase text-slate-500"
-        >
-          Expertise &amp; Masteries
-        </span>
-      </div>
-
-      <h1
-        ref={titleRef}
-        className="font-extrabold text-5xl md:text-6xl leading-tight mb-5 text-slate-900"
-      >
-        Technical <span className="text-teal-600">Arcana.</span>
-      </h1>
-
-      <p
-        ref={subtitleRef}
-        className="text-slate-500 text-[15px] leading-relaxed max-w-md mb-12"
-      >
-        Crafting scalable, high-performance digital solutions across the full
-        stack. Orchestrating logic into seamless user experiences with modern
-        architectures.
-      </p>
-
-      {/* Top row — 3 cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-        {/* Languages */}
-        <div ref={card1Ref} className="bg-white rounded-2xl border border-slate-200 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
-              <span className="text-lg font-mono">{"</>"}</span>
-              Languages
-            </div>
-            <span className="text-[11px] font-semibold text-slate-400">01</span>
-          </div>
-
-          {languages.map((lang, i) => (
-            <div key={lang.name} className="mb-5 last:mb-0">
-              <div className="flex justify-between items-end mb-1">
-                <div>
-                  <p className="text-[13px] font-semibold text-slate-900">{lang.name}</p>
-                  <p className="text-[10px] tracking-widest uppercase text-slate-400">{lang.sub}</p>
-                </div>
-                <span className="text-[12px] font-semibold text-slate-500">{lang.pct}%</span>
-              </div>
-              <div className="h-[5px] bg-slate-100 rounded-full overflow-hidden">
-                <div
-                  ref={(el) => (progressBarsRef.current[i] = el)}
-                  data-pct={lang.pct}
-                  className={`h-full rounded-full bg-gradient-to-r ${lang.color}`}
-                  style={{ width: "0%" }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Frameworks */}
-        <div ref={card2Ref} className="bg-white rounded-2xl border border-slate-200 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
-              <span>✦</span> Frameworks
-            </div>
-            <span className="text-[11px] font-semibold text-slate-400">02</span>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2.5">
-            {frameworks.map((fw) => (
-              <div
-                key={fw.name}
-                className="border border-slate-200 rounded-xl p-3.5 flex flex-col gap-2 transition-shadow duration-200 hover:shadow-md"
-              >
-                <div className="flex gap-1">
-                  {[0, 1, 2].map((i) => (
-                    <div
-                      key={i}
-                      className={`w-1.5 h-1.5 rounded-[3px] ${fw.color}`}
-                      style={{ opacity: i === 0 ? 1 : i === 1 ? 0.5 : 0.25 }}
-                    />
-                  ))}
-                </div>
-                <p className="text-[13px] font-semibold text-slate-900">{fw.name}</p>
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div
-                      key={i}
-                      className={`flex-1 h-[3px] rounded-full ${
-                        i <= fw.bars ? fw.color : "bg-slate-200"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Persistence */}
-        <div ref={card3Ref} className="bg-white rounded-2xl border border-slate-200 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
-              <span>🗄</span> Persistence
-            </div>
-            <span className="text-[11px] font-semibold text-slate-400">03</span>
-          </div>
-
-          {persistence.map((db) => (
-            <div key={db.name} className="flex items-center gap-3 mb-4 last:mb-0">
-              <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-sm flex-shrink-0">
-                {db.icon}
-              </div>
-              <div className="flex-1">
-                <div className="flex justify-between items-center mb-1.5">
-                  <span className="text-[13px] font-semibold text-slate-900">{db.name}</span>
-                  <span
-                    className={`text-[9px] font-bold tracking-widest uppercase px-1.5 py-0.5 rounded ${db.badgeColor}`}
-                  >
-                    {db.level}
-                  </span>
-                </div>
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div
-                      key={i}
-                      className={`w-5 h-1 rounded-full ${
-                        i <= db.filled ? db.barColor : "bg-slate-200"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Stats dark card */}
-        <div ref={statsCardRef} className="bg-[#0f1e2e] rounded-2xl p-6 relative overflow-hidden">
-          <svg
-            className="absolute right-0 bottom-0 w-28 h-24 opacity-10"
-            viewBox="0 0 100 80"
-            fill="none"
+      <div className="container">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-4">
+          <div ref={headerLineRef} className="h-[2px] w-12 bg-[#006A71]" />
+          <span
+            ref={headerBadgeRef}
+            className="text-[12px] font-bold leading-[1.3] tracking-[1.2px] uppercase text-[#006A71] font-heading"
           >
-            <polyline
-              points="0,70 20,50 40,55 60,25 80,30 100,10"
-              stroke="#22d3a0"
-              strokeWidth="2"
-              fill="none"
-            />
-          </svg>
-          <div className="grid grid-cols-2 gap-6 relative z-10">
-            {stats.map((s, i) => (
-              <div
-                key={s.label}
-                ref={(el) => (statsRef.current[i] = el)}
-              >
-                <p className="text-[9px] tracking-[0.12em] uppercase text-slate-400 mb-1">
-                  {s.label}
-                </p>
-                <p className="text-3xl font-extrabold text-white leading-none">{s.val}</p>
+            Expertise &amp; Masteries
+          </span>
+        </div>
+
+        <h1
+          ref={titleRef}
+          className="font-bold text-5xl md:text-6xl leading-tight mb-4 text-[#191C1E]"
+        >
+          Technical <span className="bg-gradient-to-r from-[#006A71] to-[#7511C3] bg-clip-text text-transparent">Arcana.</span>
+        </h1>
+
+        <p
+          ref={subtitleRef}
+          className="text-[#5A6275] text-[18px] leading-relaxed max-w-[672px] mb-16"
+        >
+          Crafting scalable, high-performance digital solutions across the full
+          stack. Orchestrating logic into seamless user experiences with modern
+          architectures.
+        </p>
+
+        {/* Top row — 3 cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          {/* Languages */}
+          <div ref={card1Ref} className="bg-white rounded-2xl border border-slate-200 p-6">
+            <div className="flex items-center justify-between mb-[32px]">
+              <div className="flex items-center gap-[12px] text-[20px] font-bold text-[#191C1E] leading-[1.4] font-heading">
+                <span className="text-lg font-mono"><svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 12L0 6L6 0L7.425 1.425L2.825 6.025L7.4 10.6L6 12ZM14 12L12.575 10.575L17.175 5.975L12.6 1.4L14 0L20 6L14 12Z" fill="#006A71" />
+                </svg>
+                </span>
+                Languages
+              </div>
+              <span className="text-[10px] font-normal text-[#70797B] font-liberation bg-[#EEF4F6] px-[8px] py-[4px] rounded-[8px]">01</span>
+            </div>
+
+            {languages.map((lang, i) => (
+              <div key={lang.name} className="mb-5 last:mb-0">
+                <div className="flex justify-between items-end mb-1">
+                  <div className="mb-[8px]">
+                    <p className="text-[13px] font-bold text-[#191C1E] leading-[1.4] font-heading">{lang.name}</p>
+                    <p className="text-[10px] font-medium uppercase text-[#3F484A]">{lang.sub}</p>
+                  </div>
+                  <span className="text-[14px] font-bold leading-[1.4] text-[#006A71] font-liberation">{lang.pct}%</span>
+                </div>
+                <div className="h-[5px] bg-slate-100 rounded-full overflow-hidden">
+                  <div
+                    ref={(el) => (progressBarsRef.current[i] = el)}
+                    data-pct={lang.pct}
+                    className={`h-[8px] rounded-full bg-gradient-to-r ${lang.color}`}
+                    style={{ width: "0%" }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Frameworks */}
+          <div ref={card2Ref} className="bg-white rounded-2xl border border-slate-200 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
+                <span>✦</span> Frameworks
+              </div>
+              <span className="text-[11px] font-semibold text-slate-400">02</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2.5">
+              {frameworks.map((fw) => (
+                <div
+                  key={fw.name}
+                  className="border border-slate-200 rounded-xl p-3.5 flex flex-col gap-2 transition-shadow duration-200 hover:shadow-md"
+                >
+                  <div className="flex gap-1">
+                    {[0, 1, 2].map((i) => (
+                      <div
+                        key={i}
+                        className={`w-1.5 h-1.5 rounded-[3px] ${fw.color}`}
+                        style={{ opacity: i === 0 ? 1 : i === 1 ? 0.5 : 0.25 }}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-[13px] font-semibold text-slate-900">{fw.name}</p>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div
+                        key={i}
+                        className={`flex-1 h-[3px] rounded-full ${i <= fw.bars ? fw.color : "bg-slate-200"
+                          }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Persistence */}
+          <div ref={card3Ref} className="bg-white rounded-2xl border border-slate-200 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
+                <span>🗄</span> Persistence
+              </div>
+              <span className="text-[11px] font-semibold text-slate-400">03</span>
+            </div>
+
+            {persistence.map((db) => (
+              <div key={db.name} className="flex items-center gap-3 mb-4 last:mb-0">
+                <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-sm flex-shrink-0">
+                  {db.icon}
+                </div>
+                <div className="flex-1">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="text-[13px] font-semibold text-slate-900">{db.name}</span>
+                    <span
+                      className={`text-[9px] font-bold tracking-widest uppercase px-1.5 py-0.5 rounded ${db.badgeColor}`}
+                    >
+                      {db.level}
+                    </span>
+                  </div>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div
+                        key={i}
+                        className={`w-5 h-1 rounded-full ${i <= db.filled ? db.barColor : "bg-slate-200"
+                          }`}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* DevOps */}
-        <div ref={devopsCardRef} className="bg-white rounded-2xl border border-slate-200 p-6 md:col-span-2">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
-              <span>🔧</span> DevOps &amp; Workflow
+        {/* Bottom row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Stats dark card */}
+          <div ref={statsCardRef} className="bg-[#0f1e2e] rounded-2xl p-6 relative overflow-hidden">
+            <svg
+              className="absolute right-0 bottom-0 w-28 h-24 opacity-10"
+              viewBox="0 0 100 80"
+              fill="none"
+            >
+              <polyline
+                points="0,70 20,50 40,55 60,25 80,30 100,10"
+                stroke="#22d3a0"
+                strokeWidth="2"
+                fill="none"
+              />
+            </svg>
+            <div className="grid grid-cols-2 gap-6 relative z-10">
+              {stats.map((s, i) => (
+                <div
+                  key={s.label}
+                  ref={(el) => (statsRef.current[i] = el)}
+                >
+                  <p className="text-[9px] tracking-[0.12em] uppercase text-slate-400 mb-1">
+                    {s.label}
+                  </p>
+                  <p className="text-3xl font-extrabold text-white leading-none">{s.val}</p>
+                </div>
+              ))}
             </div>
-            <span className="text-[11px] font-semibold text-slate-400">04</span>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {devOps.map((t, i) => (
-              <div
-                key={t.label}
-                ref={(el) => (devopsTagsRef.current[i] = el)}
-                className="flex items-center gap-1.5 text-[13px] font-medium text-slate-700 border border-slate-200 rounded-full px-3.5 py-1.5 bg-slate-50 hover:border-slate-400 hover:bg-white transition-all duration-200 cursor-default"
-              >
-                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${t.dot}`} />
-                {t.label}
+
+          {/* DevOps */}
+          <div ref={devopsCardRef} className="bg-white rounded-2xl border border-slate-200 p-6 md:col-span-2">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
+                <span>🔧</span> DevOps &amp; Workflow
               </div>
-            ))}
+              <span className="text-[11px] font-semibold text-slate-400">04</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {devOps.map((t, i) => (
+                <div
+                  key={t.label}
+                  ref={(el) => (devopsTagsRef.current[i] = el)}
+                  className="flex items-center gap-1.5 text-[13px] font-medium text-slate-700 border border-slate-200 rounded-full px-3.5 py-1.5 bg-slate-50 hover:border-slate-400 hover:bg-white transition-all duration-200 cursor-default"
+                >
+                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${t.dot}`} />
+                  {t.label}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
