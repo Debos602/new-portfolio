@@ -2,6 +2,7 @@ import { BoltIcon, DbIcon, GearIcon } from "@/components/Icons";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import bgShape from "@/assets/Background Wave Shape.png"
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -180,6 +181,7 @@ export const Experience = () => {
     <div
       ref={sectionRef}
       className="relative min-h-screen w-full flex flex-col items-center px-6 pt-[83px] pb-[120px] overflow-hidden bg-[#f8fbfc]"
+      style={{ backgroundImage: `url('${bgShape}')`, backgroundRepeat: "no-repeat", backgroundPosition: "center"}}
     >
       {/* Background glows */}
       <div className="pointer-events-none absolute left-[-80px] top-[440px] w-[520px] h-[520px] rounded-full bg-[#006A71] opacity-[0.05] blur-[90px]" />
@@ -272,7 +274,7 @@ export const Experience = () => {
             <div
               key={idx}
               className="grid items-center"
-              style={{ gridTemplateColumns: "1fr 40px 1fr" }}
+              style={{ gridTemplateColumns: "1fr 40px 1fr", }}
             >
               {isEven ? (
                 <>
