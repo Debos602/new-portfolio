@@ -18,19 +18,28 @@ const frameworks = [
 ];
 
 const persistence = [
-  { name: "MongoDB", icon: "🍃", level: "Expert", filled: 5, badgeColor: "bg-emerald-100 text-emerald-700", barColor: "bg-emerald-500" },
-  { name: "PostgreSQL", icon: "🐘", level: "Proficient", filled: 4, badgeColor: "bg-violet-100 text-violet-700", barColor: "bg-violet-500" },
-  { name: "Redis", icon: "🔴", level: "Mid-Level", filled: 3, badgeColor: "bg-blue-100 text-blue-700", barColor: "bg-blue-500" },
+  { name: "MongoDB", icon: <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 13.3333V10H15V13.3333H0ZM1.66667 12.5H3.33333V10.8333H1.66667V12.5ZM0 3.33333V0H15V3.33333H0ZM1.66667 2.5H3.33333V0.833333H1.66667V2.5ZM0 8.33333V5H15V8.33333H0ZM1.66667 7.5H3.33333V5.83333H1.66667V7.5Z" fill="#006A71"/>
+</svg>
+, level: "Expert", filled: 5, badgeColor: "bg-green-100 text-emerald-700", barColor: "bg-[#006A71]" },
+  { name: "PostgreSQL", icon: <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.3333 15H1.66667C1.20833 15 0.815972 14.8368 0.489583 14.5104C0.163194 14.184 0 13.7917 0 13.3333V1.66667C0 1.20833 0.163194 0.815972 0.489583 0.489583C0.815972 0.163194 1.20833 0 1.66667 0H13.3333C13.7917 0 14.184 0.163194 14.5104 0.489583C14.8368 0.815972 15 1.20833 15 1.66667V13.3333C15 13.7917 14.8368 14.184 14.5104 14.5104C14.184 14.8368 13.7917 15 13.3333 15ZM1.66667 4.16667H13.3333V1.66667H1.66667V4.16667ZM3.75 5.83333H1.66667V13.3333H3.75V5.83333ZM11.25 5.83333V13.3333H13.3333V5.83333H11.25ZM9.58333 5.83333H5.41667V13.3333H9.58333V5.83333Z" fill="#005DB7"/>
+</svg>
+, level: "Proficient", filled: 3, badgeColor: "bg-violet-100 text-violet-700", barColor: "bg-[#005DB7]" },
+  { name: "Redis", icon: <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 10V5H10V10H5ZM6.66667 8.33333H8.33333V6.66667H6.66667V8.33333ZM5 15V13.3333H3.33333C2.875 13.3333 2.48264 13.1701 2.15625 12.8438C1.82986 12.5174 1.66667 12.125 1.66667 11.6667V10H0V8.33333H1.66667V6.66667H0V5H1.66667V3.33333C1.66667 2.875 1.82986 2.48264 2.15625 2.15625C2.48264 1.82986 2.875 1.66667 3.33333 1.66667H5V0H6.66667V1.66667H8.33333V0H10V1.66667H11.6667C12.125 1.66667 12.5174 1.82986 12.8438 2.15625C13.1701 2.48264 13.3333 2.875 13.3333 3.33333V5H15V6.66667H13.3333V8.33333H15V10H13.3333V11.6667C13.3333 12.125 13.1701 12.5174 12.8438 12.8438C12.5174 13.1701 12.125 13.3333 11.6667 13.3333H10V15H8.33333V13.3333H6.66667V15H5ZM11.6667 11.6667V3.33333H3.33333V11.6667H11.6667Z" fill="#7511C3"/>
+</svg>
+, level: "Mid-Level", filled: 3, badgeColor: "bg-blue-100 text-blue-700", barColor: "bg-[#7511C3]" },
 ];
 
 const devOps = [
-  { label: "Docker", dot: "bg-emerald-500" },
-  { label: "Kubernetes", dot: "bg-blue-500" },
-  { label: "AWS (EC2/S3/Lambda)", dot: "bg-amber-500" },
-  { label: "GitHub Actions", dot: "bg-violet-500" },
-  { label: "Jest / Cypress", dot: "bg-red-500" },
-  { label: "Vercel", dot: "bg-slate-900" },
-  { label: "Postman", dot: "bg-slate-400" },
+  { label: "Docker", dot: "bg-[#006A71]/40" },
+  { label: "Kubernetes", dot: "bg-[#006A71]/40" },
+  { label: "AWS (EC2/S3/Lambda)", dot: "bg-[#006A71]/40" },
+  { label: "GitHub Actions", dot: "bg-[#006A71]/40" },
+  { label: "Jest / Cypress", dot: "bg-[#006A71]/40" },
+  { label: "Vercel", dot: "bg-[#006A71]/40" },
+  { label: "Postman", dot: "bg-[#006A71]/40" },
 ];
 
 const stats = [
@@ -216,7 +225,7 @@ export const Skills = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#F4FAFF] pt-[59px]"
+      className="bg-[#F4FAFF] pt-[59px] py-[176px]"
     >
       <div className="container">
         {/* Header */}
@@ -226,7 +235,7 @@ export const Skills = () => {
             ref={headerBadgeRef}
             className="text-[12px] font-bold leading-[1.3] tracking-[1.2px] uppercase text-[#006A71] font-heading"
           >
-            Expertise &amp; Masteries
+            Expertise &amp; Masteries 
           </span>
         </div>
 
@@ -247,7 +256,7 @@ export const Skills = () => {
         </p>
 
         {/* Top row — 3 cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Languages */}
           <div ref={card1Ref} className="bg-white rounded-2xl border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-[32px]">
@@ -319,20 +328,23 @@ export const Skills = () => {
           {/* Persistence */}
           <div ref={card3Ref} className="bg-white rounded-2xl border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
-                <span>🗄</span> Persistence
+              <div className="flex items-center gap-[12px] text-[20px] font-bold text-[#191C1E] leading-[1.4] font-heading">
+                <span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18C6.48333 18 4.35417 17.6125 2.6125 16.8375C0.870833 16.0625 0 15.1167 0 14V4C0 2.9 0.879167 1.95833 2.6375 1.175C4.39583 0.391667 6.51667 0 9 0C11.4833 0 13.6042 0.391667 15.3625 1.175C17.1208 1.95833 18 2.9 18 4V14C18 15.1167 17.1292 16.0625 15.3875 16.8375C13.6458 17.6125 11.5167 18 9 18ZM9 6.025C10.4833 6.025 11.975 5.8125 13.475 5.3875C14.975 4.9625 15.8167 4.50833 16 4.025C15.8167 3.54167 14.9792 3.08333 13.4875 2.65C11.9958 2.21667 10.5 2 9 2C7.48333 2 5.99583 2.2125 4.5375 2.6375C3.07917 3.0625 2.23333 3.525 2 4.025C2.23333 4.525 3.07917 4.98333 4.5375 5.4C5.99583 5.81667 7.48333 6.025 9 6.025ZM9 11C9.7 11 10.375 10.9667 11.025 10.9C11.675 10.8333 12.2958 10.7375 12.8875 10.6125C13.4792 10.4875 14.0375 10.3333 14.5625 10.15C15.0875 9.96667 15.5667 9.75833 16 9.525V6.525C15.5667 6.75833 15.0875 6.96667 14.5625 7.15C14.0375 7.33333 13.4792 7.4875 12.8875 7.6125C12.2958 7.7375 11.675 7.83333 11.025 7.9C10.375 7.96667 9.7 8 9 8C8.3 8 7.61667 7.96667 6.95 7.9C6.28333 7.83333 5.65417 7.7375 5.0625 7.6125C4.47083 7.4875 3.91667 7.33333 3.4 7.15C2.88333 6.96667 2.41667 6.75833 2 6.525V9.525C2.41667 9.75833 2.88333 9.96667 3.4 10.15C3.91667 10.3333 4.47083 10.4875 5.0625 10.6125C5.65417 10.7375 6.28333 10.8333 6.95 10.9C7.61667 10.9667 8.3 11 9 11ZM9 16C9.76667 16 10.5458 15.9417 11.3375 15.825C12.1292 15.7083 12.8583 15.5542 13.525 15.3625C14.1917 15.1708 14.75 14.9542 15.2 14.7125C15.65 14.4708 15.9167 14.225 16 13.975V11.525C15.5667 11.7583 15.0875 11.9667 14.5625 12.15C14.0375 12.3333 13.4792 12.4875 12.8875 12.6125C12.2958 12.7375 11.675 12.8333 11.025 12.9C10.375 12.9667 9.7 13 9 13C8.3 13 7.61667 12.9667 6.95 12.9C6.28333 12.8333 5.65417 12.7375 5.0625 12.6125C4.47083 12.4875 3.91667 12.3333 3.4 12.15C2.88333 11.9667 2.41667 11.7583 2 11.525V14C2.08333 14.25 2.34583 14.4917 2.7875 14.725C3.22917 14.9583 3.78333 15.1708 4.45 15.3625C5.11667 15.5542 5.85 15.7083 6.65 15.825C7.45 15.9417 8.23333 16 9 16Z" fill="#005DB7"/>
+              </svg>
+              </span> Persistence
               </div>
               <span className="text-[10px] font-normal text-[#70797B] font-liberation leading-[1.5] tracking-[1] bg-[#EEF4F6] px-[8px] py-[4px] rounded-[8px]">03</span>
             </div>
 
             {persistence.map((db) => (
-              <div key={db.name} className="flex items-center gap-3 mb-4 last:mb-0">
-                <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-sm flex-shrink-0">
+              <div key={db.name} className="flex items-center gap-4 mb-6 last:mb-0">
+                <div className="px-[11.5px] py-[12.33px] rounded-lg bg-[#EEF4F6] flex items-center justify-center text-sm flex-shrink-0">
                   {db.icon}
                 </div>
                 <div className="flex-1">
-                  <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-[13px] font-semibold text-slate-900">{db.name}</span>
+                  <div className="flex justify-between items-center mb-[4px]">
+                    <span className="text-[14px] font-bold text-[#191C1E]">{db.name}</span>
                     <span
                       className={`text-[9px] font-bold tracking-widest uppercase px-1.5 py-0.5 rounded ${db.badgeColor}`}
                     >
@@ -340,10 +352,10 @@ export const Skills = () => {
                     </span>
                   </div>
                   <div className="flex gap-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
+                    {[1, 2, 3, 4].map((i) => (
                       <div
                         key={i}
-                        className={`w-5 h-1 rounded-full ${i <= db.filled ? db.barColor : "bg-slate-200"
+                        className={`w-[66.5px] h-[6px] rounded-full ${i <= db.filled ? db.barColor : "bg-slate-200"
                           }`}
                       />
                     ))}
@@ -355,9 +367,13 @@ export const Skills = () => {
         </div>
 
         {/* Bottom row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Stats dark card */}
-          <div ref={statsCardRef} className="bg-[#0f1e2e] rounded-2xl p-6 relative overflow-hidden">
+          <div ref={statsCardRef} className="bg-[#006A71] rounded-2xl p-8 relative overflow-hidden">
+            <svg  className="absolute top-0 right-[-10px] w-28 h-24 opacity-10" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 80V69.3333L10.6667 58.6667V80H0ZM21.3333 80V48L32 37.3333V80H21.3333ZM42.6667 80V37.3333L53.3333 48.1333V80H42.6667ZM64 80V48.1333L74.6667 37.4667V80H64ZM85.3333 80V26.6667L96 16V80H85.3333ZM0 52.4V37.3333L37.3333 0L58.6667 21.3333L96 -16V-0.933333L58.6667 36.4L37.3333 15.0667L0 52.4Z" fill="white"/>
+        </svg>
+
             <svg
               className="absolute right-0 bottom-0 w-28 h-24 opacity-10"
               viewBox="0 0 100 80"
@@ -370,35 +386,38 @@ export const Skills = () => {
                 fill="none"
               />
             </svg>
-            <div className="grid grid-cols-2 gap-6 relative z-10">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-8 relative z-10">
               {stats.map((s, i) => (
                 <div
                   key={s.label}
                   ref={(el) => (statsRef.current[i] = el)}
                 >
-                  <p className="text-[9px] tracking-[0.12em] uppercase text-slate-400 mb-1">
+                  <p className="text-[10px] leading-[1.5] tracking-[1px] font-normal font-liberation uppercase text-[#FFFFFF] mb-1">
                     {s.label}
                   </p>
-                  <p className="text-3xl font-extrabold text-white leading-none">{s.val}</p>
+                  <p className="text-[36px] font-bold text-white leading-[1.1] font-heading">{s.val}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* DevOps */}
-          <div ref={devopsCardRef} className="bg-white rounded-2xl border border-slate-200 p-6 md:col-span-2">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
-                <span>🔧</span> DevOps &amp; Workflow
-              </div>
-              <span className="text-[11px] font-semibold text-slate-400">04</span>
+          <div ref={devopsCardRef} className="bg-white/70 rounded-2xl border border-[#006A71]/10 p-8 md:col-span-2">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-2 text-[20px] font-bold text-[#191C1E] leading-[1.4] font-heading">
+                <span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.15 17.7L8.1 11.6C7.76667 11.7333 7.42917 11.8333 7.0875 11.9C6.74583 11.9667 6.38333 12 6 12C4.33333 12 2.91667 11.4167 1.75 10.25C0.583333 9.08333 0 7.66667 0 6C0 5.4 0.0833333 4.82917 0.25 4.2875C0.416667 3.74583 0.65 3.23333 0.95 2.75L4.6 6.4L6.4 4.6L2.75 0.95C3.23333 0.65 3.74583 0.416667 4.2875 0.25C4.82917 0.0833333 5.4 0 6 0C7.66667 0 9.08333 0.583333 10.25 1.75C11.4167 2.91667 12 4.33333 12 6C12 6.38333 11.9667 6.74583 11.9 7.0875C11.8333 7.42917 11.7333 7.76667 11.6 8.1L17.7 14.15C17.9 14.35 18 14.5917 18 14.875C18 15.1583 17.9 15.4 17.7 15.6L15.6 17.7C15.4 17.9 15.1583 18 14.875 18C14.5917 18 14.35 17.9 14.15 17.7ZM14.875 15.575L15.55 14.9L9.15 8.5C9.45 8.16667 9.66667 7.77917 9.8 7.3375C9.93333 6.89583 10 6.45 10 6C10 5 9.67917 4.12917 9.0375 3.3875C8.39583 2.64583 7.6 2.2 6.65 2.05L8.5 3.9C8.7 4.1 8.8 4.33333 8.8 4.6C8.8 4.86667 8.7 5.1 8.5 5.3L5.3 8.5C5.1 8.7 4.86667 8.8 4.6 8.8C4.33333 8.8 4.1 8.7 3.9 8.5L2.05 6.65C2.2 7.6 2.64583 8.39583 3.3875 9.0375C4.12917 9.67917 5 10 6 10C6.43333 10 6.86667 9.93333 7.3 9.8C7.73333 9.66667 8.125 9.45833 8.475 9.175L14.875 15.575Z" fill="#3F484A"/>
+                </svg>
+                </span> DevOps &amp; Workflow
+                </div>
+              <span className="text-[10px] font-normal text-[#70797B] leading-[1.5] bg-[#EEF4F6] px-[8px] py-[4px] rounded-[8px]">04</span>
             </div>
             <div className="flex flex-wrap gap-2">
               {devOps.map((t, i) => (
                 <div
                   key={t.label}
                   ref={(el) => (devopsTagsRef.current[i] = el)}
-                  className="flex items-center gap-1.5 text-[13px] font-medium text-slate-700 border border-slate-200 rounded-full px-3.5 py-1.5 bg-slate-50 hover:border-slate-400 hover:bg-white transition-all duration-200 cursor-default"
+                  className="flex items-center gap-3 text-[13px] font-bold text-[#191C1E] font-heading  border border-[#BFC8CA]/40 rounded-[24px] leading-[1.4] px-[20px] py-[12px] bg-[#FFFFFF] hover:border-slate-400 hover:bg-white transition-all duration-200 cursor-default"
                 >
                   <span className={`w-2 h-2 rounded-full flex-shrink-0 ${t.dot}`} />
                   {t.label}
