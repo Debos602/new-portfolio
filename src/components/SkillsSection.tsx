@@ -104,7 +104,7 @@ const SkillsSection = () => {
 
         <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {skills.map((skill) => (
-            <div key={skill.title} className="card-skill opacity-0">
+            <div key={skill.title} className="card-skill border  border-[#006874]/10 opacity-0">
               <div className={`w-14 h-14 rounded-2xl ${skill.bg} flex items-center justify-center mb-6`}>
                 <skill.icon size={24} className={skill.color} />
               </div>

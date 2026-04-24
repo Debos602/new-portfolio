@@ -37,7 +37,7 @@ const Navbar = () => {
             </span>
           
           <span className="font-heading font-bold text-lg tracking-tight bg-gradient-to-r from-[#006874] to-[#7E3FF2] bg-clip-text text-transparent">
-          ALCHEMIST.DEV
+          DEBOS.DAS
         </span>
         </Link>
 

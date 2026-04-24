@@ -124,3 +124,8 @@
     padding-left: 20px;
   }
 }
+@media (max-width:768px) {
+  .card-skill {
+    padding:20px;
+  }
+}
