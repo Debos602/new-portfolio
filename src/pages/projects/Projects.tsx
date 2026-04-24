@@ -1,8 +1,13 @@
+import { useEffect, useRef } from "react"
+import gsap from "gsap"
 import Image1 from "../../assets/project1.png"
 import Image2 from "../../assets/project2.png"
 import Image3 from "../../assets/project3.png"
 
 export const Projects = () => {
+  const headerRef = useRef(null)
+  const filtersRef = useRef(null)
+  const cardsRef = useRef<HTMLDivElement[]>([])
   const filters = ["All", "Full Stack", "Frontend", "Backend"];
 
   const projects = [
