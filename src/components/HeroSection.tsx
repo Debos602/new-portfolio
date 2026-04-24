@@ -54,12 +54,10 @@ const HeroSection = () => {
     <section ref={sectionRef} className="bg-[#F4FAFF]">
 
       {/* Gradient 1 — Cyan #00EEFC (8% → 0%) */}
-      <div className="relative container flex items-center pt-20 overflow-hidden">
+      <div className="relative container flex items-center pt-5 md:pt-20 overflow-hidden">
         <div
-          className="absolute top-0 right-[200px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none"
-          style={{
-            background: "radial-gradient(circle, rgba(0,238,252,0.08) 0%, rgba(0,238,252,0) 50%)",
-          }}
+          className="absolute top-0 right-[200px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none bg-[#006874]/10 blur-[100px]"
+          
         />
 
         {/* Gradient 2 — Purple #7E3FF2 (5% → 0%) */}
@@ -80,21 +78,21 @@ const HeroSection = () => {
 
         {/* Subtle background shapes */}
         <div className="absolute top-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-primary/[0.03]" />
+          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-[#006874]" />
           <div className="absolute -bottom-60 -left-40 w-[500px] h-[500px] rounded-full bg-accent/[0.03]" />
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
             {/* Left */}
             <div>
               <div
                 ref={badgeRef}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/[0.05] mb-8 opacity-0"
+                className="inline-flex items-center gap-[12px] px-[16px] py-[6px] rounded-full border border-[#006874]/10 bg-[#006874]/5 mb-8 opacity-0"
               >
-                <span className="w-2 h-2 rounded-full bg-primary/80 animate-pulse" />
-                <span className="text-xs font-medium tracking-[0.15em] uppercase text-primary">
+                <span className="w-[8px] h-[8px] rounded-full bg-[#006874] animate-pulse" />
+                <span className="text-[11px] font-bold leading-[1.5] tracking-[1.1px] uppercase text-[#006874] font-heading">
                   Open for Global Collaborations
                 </span>
               </div>
