@@ -150,7 +150,8 @@ const About = () => {
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-[#F4FAFF]" >
 
-      {/* ── Gradients ── */}
+   <div className="container mx-auto">
+       {/* ── Gradients ── */}
       <div
         className="absolute top-0 right-[200px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none"
         style={{ background: "radial-gradient(circle, rgba(0,238,252,0.08) 0%, rgba(0,238,252,0) 50%)" }}
@@ -167,7 +168,7 @@ const About = () => {
       {/* ══════════════════════════════════════
           HERO BLOCK
       ══════════════════════════════════════ */}
-      <div className="container mx-auto px-6 py-24 relative z-10">
+      <div className="py-24 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
           {/* Left */}
@@ -231,7 +232,7 @@ const About = () => {
       {/* ══════════════════════════════════════
           TIMELINE
       ══════════════════════════════════════ */}
-      <div className="container mx-auto px-6 pb-24 relative z-10">
+      <div className="pb-24 relative z-10">
         <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">
           Evolutionary Path
         </h2>
@@ -266,7 +267,7 @@ const About = () => {
       {/* ══════════════════════════════════════
           VALUES
       ══════════════════════════════════════ */}
-      <div className="bg-[#F4FAFF] py-24 relative z-10">
+      <div className="py-24 relative z-10">
         <div className="container mx-auto px-6">
           <div ref={valuesRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {values.map((v) => (
@@ -283,7 +284,7 @@ const About = () => {
       {/* ══════════════════════════════════════
           TOOLS
       ══════════════════════════════════════ */}
-      <div className="container mx-auto px-6 py-24 relative z-10">
+      <div className=" py-24 relative z-10">
         <h2 className="text-3xl md:text-4xl font-heading mb-4 font-bold bg-gradient-to-r from-[#0891B2] to-[#7C3AED] bg-clip-text text-transparent text-center">
         The Alchemist's Tools
         </h2>
@@ -307,7 +308,7 @@ const About = () => {
       {/* ══════════════════════════════════════
           SHOWCASE
       ══════════════════════════════════════ */}
-      <div className="container mx-auto px-6 pb-24 relative z-10">
+      <div className="pb-24 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">
             Visual Design
@@ -338,6 +339,7 @@ const About = () => {
           </div>
         </div>
       </div>
+   </div>
 
     </section>
   );
