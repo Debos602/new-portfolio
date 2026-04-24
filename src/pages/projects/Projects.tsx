@@ -1,14 +1,90 @@
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Image1 from "../../assets/project1.png"
 import Image2 from "../../assets/project2.png"
 import Image3 from "../../assets/project3.png"
 
+gsap.registerPlugin(ScrollTrigger)
+
 export const Projects = () => {
+  const sectionRef = useRef(null)
   const headerRef = useRef(null)
   const filtersRef = useRef(null)
   const cardsRef = useRef<HTMLDivElement[]>([])
   const filters = ["All", "Full Stack", "Frontend", "Backend"];
+
+  // Card hover animation handler
+  const handleCardHover = (e: React.MouseEvent<HTMLDivElement>, isHovering: boolean) => {
+    gsap.to(e.currentTarget, {
+      y: isHovering ? -8 : 0,
+      boxShadow: isHovering
+        ? "0 20px 40px rgba(0, 106, 113, 0.15)"
+        : "0 4px 12px rgba(0, 0, 0, 0.05)",
+      duration: 0.3,
+      ease: "power2.out",
+    })
+  }
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header animation
+      const [hTitle, hPara] = headerRef.current?.children || []
+      
+      if (hTitle) {
+        gsap.fromTo(
+          hTitle,
+          { opacity: 0, y: 48, skewY: 2 },
+          {
+            opacity: 1, y: 0, skewY: 0,
+            duration: 0.85, ease: "power3.out",
+            scrollTrigger: { trigger: headerRef.current, start: "top 82%", once: true },
+          }
+        )
+      }
+
+      if (hPara) {
+        gsap.fromTo(
+          hPara,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1, y: 0,
+            duration: 0.65, ease: "power2.out", delay: 0.18,
+            scrollTrigger: { trigger: headerRef.current, start: "top 82%", once: true },
+          }
+        )
+      }
+
+      // Filters animation
+      if (filtersRef.current) {
+        const filterButtons = filtersRef.current.querySelectorAll("button")
+        gsap.fromTo(
+          filterButtons,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1, y: 0,
+            duration: 0.6, ease: "power3.out", stagger: 0.08,
+            scrollTrigger: { trigger: filtersRef.current, start: "top 82%", once: true },
+          }
+        )
+      }
+
+      // Project cards animation
+      if (cardsRef.current.length > 0) {
+        gsap.fromTo(
+          cardsRef.current,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1, y: 0,
+            duration: 0.8, ease: "power3.out", stagger: 0.12,
+            scrollTrigger: { trigger: cardsRef.current[0], start: "top 82%", once: true },
+          }
+        )
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
 
   const projects = [
     {
@@ -41,11 +117,11 @@ export const Projects = () => {
   ];
 
   return (
-    <div className="bg-[#F4F7FF]">
+    <div ref={sectionRef} className="bg-[#F4F7FF]">
       <div className="container mx-auto pb-[128px]">
 
         {/* Header */}
-        <div className="text-center max-w-[600px] pt-[91px] py-[64px] mx-auto relative">
+        <div ref={headerRef} className="text-center max-w-[600px] pt-[91px] py-[64px] mx-auto relative">
           <div className="absolute top-0 right-0 bg-[#006A71]/5 w-[600px] h-[300px] rounded-full blur-[100px]"></div>
           <h1 className="text-7xl tracking-[-1.8px] font-bold mb-6">SELECTED WORKS</h1>
           <p className="text-[18px] leading-[1.5] font-normal text-[#4D556B]">
@@ -55,7 +131,7 @@ export const Projects = () => {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center justify-center gap-3 mb-16">
+        <div ref={filtersRef} className="flex items-center justify-center gap-3 mb-16">
           {filters.map((f) => (
             <button key={f} className="font-heading text-[20px] font-bold leading-[1.4] border border-[#D1D5DB] hover:bg-[#006A71] hover:text-white px-[32px] py-[11px] rounded-full duration-300">{f}</button>
           ))}
@@ -63,8 +139,16 @@ export const Projects = () => {
 
         {/* Project Cards */}
         <div className="grid grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <div key={project.title} className="rounded-[16px] border bg-[#FFFFFF]">
+          {projects.map((project, index) => (
+            <div
+              key={project.title}
+              ref={(el) => {
+                if (el) cardsRef.current[index] = el
+              }}
+              onMouseEnter={(e) => handleCardHover(e, true)}
+              onMouseLeave={(e) => handleCardHover(e, false)}
+              className="rounded-[16px] border bg-[#FFFFFF]"
+            >
 
               {/* Card Image */}
               <div className="relative">
