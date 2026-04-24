@@ -5,7 +5,9 @@ const Index = () => {
   return (
     <div className="bg-background">
       <HeroSection />
-      <SkillsSection />
+       {/* <SkillsSection /> */}
+       {/* Add more sections here as needed */}
+       {/* For example: <ProjectsSection />, <ExperienceSection />, etc. */}
     </div>
   );
 };

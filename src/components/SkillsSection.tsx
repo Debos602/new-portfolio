@@ -62,7 +62,7 @@ const SkillsSection = () => {
   return (
     <section ref={sectionRef} className="bg-[#F4FAFF]">
 
-     <div className="container py-24 relative overflow-hidden">
+     <div className=" py-0 md:py-24 relative overflow-hidden">
        {/* Gradient 1 — Cyan #00EEFC (8% → 0%) */}
       <div
         className="absolute top-0 right-[200px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none"
@@ -87,7 +87,7 @@ const SkillsSection = () => {
         }}
       />
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="relative z-10">
         <div ref={headingRef} className="flex flex-col md:flex-row md:items-end md:justify-between mb-14 opacity-0">
           <div>
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-3">
