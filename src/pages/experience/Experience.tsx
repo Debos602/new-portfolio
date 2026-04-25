@@ -188,28 +188,28 @@ export const Experience = () => {
       <div className="pointer-events-none absolute right-[-60px] top-[820px] w-[420px] h-[420px] rounded-full bg-[#8E33E4] opacity-[0.05] blur-[90px]" />
 
       {/* Header */}
-      <div ref={headerRef} className="text-center mb-[96px] max-w-[672px]">
+      <div ref={headerRef} className="text-center mb-[96px] max-w-[768px]">
         <h1
-          className="font-bold text-5xl md:text-6xl leading-tight mb-4 text-[#191C1E]"
+          className="text-[72px] font-bold leading-[1] tracking-[-3.6px] bg-gradient-to-r from-[#006A71] to-[#7511C3] bg-clip-text text-transparent mb-[32px] font-heading"
         >
           Experience
         </h1>
-        <p className="text-[#5A6275] text-[18px] leading-relaxed max-w-[672px] mb-16">
+        <p className="text-[20px] leading-[1.65] text-[#5A6275]">
           Orchestrating digital architecture through code. A professional timeline of
           building scalable systems and immersive user interfaces for global enterprises.
         </p>
       </div>
 
       {/* Timeline */}
-      <div className="w-full container mx-auto relative">
+      <div className="w-full md:container mx-auto relative">
         {experiences.map((exp, idx) => {
           const isEven = idx % 2 === 0;
 
           const metaBlock = (align) => (
             <div
               ref={setRowRef(idx, "meta")}
-              className={`pt-2.5 ${
-                align === "right" ? "pr-9 text-right" : "pl-9 text-left"
+              className={`pt-2.5 pr-0 ${
+                align === "right" ? "md:pr-9 text-right" : "md:pl-9 text-left"
               }`}
             >
               <p className="font-mono text-[#006A71] font-medium text-[14px] leading-[1.4] tracking-[1.4px]">
@@ -240,9 +240,9 @@ export const Experience = () => {
           const cardBlock = (side) => (
             <div
               ref={setRowRef(idx, "card")}
-              className={`pt-1 ${side === "right" ? "pl-9" : "pr-9"}`}
+              className={`pl-0 md:pt-1 ${side === "right" ? "md:pl-9" : "pr-9"}`}
             >
-              <div className="bg-white rounded-2xl border border-slate-100 p-[32px] shadow-sm">
+              <div className="bg-white rounded-2xl border border-slate-100 p-[10px] md:p-[32px] shadow-sm">
                 <div className="flex flex-col gap-[16px]">
                   {exp.highlights.map((h, i) => (
                     <div key={i} className="flex gap-[10px] items-start">
@@ -273,20 +273,24 @@ export const Experience = () => {
           return (
             <div
               key={idx}
-              className="grid items-center"
+              className="md:grid items-center"
               style={{ gridTemplateColumns: "1fr 40px 1fr", }}
             >
               {isEven ? (
                 <>
-                  {metaBlock("right")}
-                  {centerDot}
-                  {cardBlock("right")}
+                  {metaBlock("left md:right")}
+                 <div className="hidden md:block">
+                   {centerDot}
+                 </div>
+                  {cardBlock("left md:right")}
                 </>
               ) : (
                 <>
-                  {cardBlock("left")}
-                  {centerDot}
-                  {metaBlock("left")}
+                  {cardBlock("right md:left")}
+                  <div className="hidden md:block" >
+                     {centerDot}
+                  </div>
+                  {metaBlock("rightmd:left")}
                 </>
               )}
             </div>
