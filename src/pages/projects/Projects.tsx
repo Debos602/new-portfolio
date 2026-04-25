@@ -121,10 +121,10 @@ export const Projects = () => {
       <div className="container mx-auto pb-[128px]">
 
         {/* Header */}
-        <div ref={headerRef} className="text-center max-w-[600px] pt-[91px] py-[64px] mx-auto relative">
+        <div ref={headerRef} className="text-center max-w-[672px] pt-[91px] py-[64px] mx-auto relative">
           <div className="absolute top-0 right-0 bg-[#006A71]/5 w-[600px] h-[300px] rounded-full blur-[100px]"></div>
-          <h1 className="text-7xl tracking-[-1.8px] font-bold mb-6">SELECTED WORKS</h1>
-          <p className="text-[18px] leading-[1.5] font-normal text-[#4D556B]">
+          <h1 className="font-bold text-5xl md:text-6xl leading-tight mb-4 text-[#191C1E]">SELECTED WORKS</h1>
+          <p className="text-[#5A6275] text-[18px] leading-relaxed max-w-[672px] mb-16">
             High-performance MERN applications engineered for the modern web.
             Exploring the intersection of design and data.
           </p>

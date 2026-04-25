@@ -67,12 +67,12 @@ export const Contact = () => {
       <div>
         {/* Header */}
         <div ref={headerRef} className="mb-16 md:mb-24">
-          <h1 className="text-[64px] md:text-[72px] font-bold leading-[1.1] tracking-[-2px] mb-6 font-heading">
-            <span className="text-[#191C1E]">Let's Build</span>
+          <h1 className="font-bold text-5xl md:text-6xl leading-tight mb-4 text-[#191C1E]">
+            <span>Let's Build</span>
             <br />
             <span  className="bg-gradient-to-r from-[#006A71] to-[#7511C3] bg-clip-text text-transparent">Something Elite</span>
           </h1>
-          <p className="text-[18px] leading-[1.65] text-[#44474E] max-w-[597.67px]">
+          <p className="text-[#5A6275] text-[18px] leading-relaxed max-w-[672px] mb-16">
             Transforming complex logic into seamless digital experiences. Currently accepting selective freelance partnerships for visionary MERN projects.
           </p>
         </div>

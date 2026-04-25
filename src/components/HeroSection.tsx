@@ -105,18 +105,18 @@ const HeroSection = () => {
                 Desktop : 4.5rem  (72px) */}
             <h1
               ref={headingRef}
-              className="text-[2.5rem] leading-[1.05] sm:text-[3.25rem] md:text-[3.25rem] lg:text-[4.5rem] xl:text-7xl font-heading font-bold mb-4 sm:mb-5 md:mb-5 lg:mb-6"
+              className="font-bold text-5xl md:text-6xl leading-tight mb-4 text-[#191C1E]"
             >
-              <span className="hero-line block text-foreground">Building</span>
-              <span className="hero-line block text-foreground">Scalable</span>
-              <span className="hero-line block text-gradient">Digital</span>
-              <span className="hero-line block text-gradient">Experiences</span>
+              <span className="hero-line block">Building</span>
+              <span className="hero-line block">Scalable</span>
+              <span className="hero-line block bg-gradient-to-r from-[#006A71] to-[#7511C3] bg-clip-text text-transparent">Digital</span>
+              <span className="hero-line block bg-gradient-to-r from-[#006A71] to-[#7511C3] bg-clip-text text-transparent">Experiences</span>
             </h1>
 
             {/* Subtext */}
             <p
               ref={subtextRef}
-              className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-[90%] sm:max-w-md leading-relaxed mb-6 sm:mb-7 lg:mb-8 opacity-0"
+              className="text-[#5A6275] text-[18px] leading-relaxed max-w-[672px] mb-16 opacity-0"
             >
               MERN Architect crafting high-performance full-stack applications with architectural
               precision and ethereal aesthetics for modern businesses.

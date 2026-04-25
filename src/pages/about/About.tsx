@@ -185,15 +185,15 @@ const About = () => {
 
             <h1
               ref={headingRef}
-              className="text-5xl md:text-6xl font-heading font-bold leading-[1.05] mb-6"
+              className="font-bold text-5xl md:text-6xl leading-tight mb-4 text-[#191C1E]"
             >
-              <span className="about-line block text-foreground opacity-0">Architecting</span>
-              <span className="about-line block text-gradient opacity-0">Digital Logic.</span>
+              <span className="about-line block opacity-0">Architecting</span>
+              <span className="about-line block bg-gradient-to-r from-[#006A71] to-[#7511C3] bg-clip-text text-transparent opacity-0">Digital Logic.</span>
             </h1>
 
             <p
               ref={subtextRef}
-              className="text-lg text-muted-foreground max-w-md leading-relaxed mb-10 opacity-0"
+              className="text-[#5A6275] text-[18px] leading-relaxed max-w-[672px] mb-16 opacity-0"
             >
               I translate complex human needs into ethereal, high-velocity digital structures. As a
               Full Stack Alchemist, I fuse the precision of MongoDB with the fluidity of React to

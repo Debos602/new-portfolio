@@ -188,13 +188,13 @@ export const Experience = () => {
       <div className="pointer-events-none absolute right-[-60px] top-[820px] w-[420px] h-[420px] rounded-full bg-[#8E33E4] opacity-[0.05] blur-[90px]" />
 
       {/* Header */}
-      <div ref={headerRef} className="text-center mb-[96px] max-w-[768px]">
+      <div ref={headerRef} className="text-center mb-[96px] max-w-[672px]">
         <h1
-          className="text-[72px] font-bold leading-[1] tracking-[-3.6px] text-[#191C20] mb-[32px] font-heading"
+          className="font-bold text-5xl md:text-6xl leading-tight mb-4 text-[#191C1E]"
         >
           Experience
         </h1>
-        <p className="text-[20px] leading-[1.65] text-[#5A6275]">
+        <p className="text-[#5A6275] text-[18px] leading-relaxed max-w-[672px] mb-16">
           Orchestrating digital architecture through code. A professional timeline of
           building scalable systems and immersive user interfaces for global enterprises.
         </p>
