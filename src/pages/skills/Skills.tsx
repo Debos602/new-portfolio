@@ -216,7 +216,7 @@ export const Skills = () => {
     <section
       ref={sectionRef}
       /* ↓ Responsive vertical padding: tight on mobile, generous on desktop */
-      className="bg-[#F4FAFF] pt-10 pb-16 md:pt-[59px] md:pb-[120px] lg:py-[176px]"
+      className="bg-[#F4FAFF] pt-10 pb-16 md:pt-[59px] md:pb-[72px] lg:py-[72px]"
     >
       <div className="container px-4 sm:px-6 lg:px-8">
         {/* ── Header ─────────────────────────────────────────────────── */}
