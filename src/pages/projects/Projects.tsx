@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Image1 from "../../assets/project1.png"
 import Image2 from "../../assets/project2.png"
 import Image3 from "../../assets/project3.png"
+import fetchProjects from "../../api/project/apiProject"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -82,35 +83,37 @@ export const Projects = () => {
     return () => ctx.revert()
   }, [])
 
-  const projects = [
-    {
-      title: "CRYPTO-FLUX V2",
-      tags: ["REACT", "NODE"],
-      description: "A real-time cryptocurrency analytics engine with WebSocket integration and counter-predictive modeling.",
-      image: Image1,
-      liveDemo: "https://crypto-flux.vercel.app",
-      frontend: "https://github.com/username/crypto-flux-frontend",
-      backend: "https://github.com/username/crypto-flux-backend",
-    },
-    {
-      title: "NEO-COMMERCE",
-      tags: ["NEXT.JS", "TAILWIND", "POSTGRESQL", "STRIPE"],
-      description: "Next-generation headless commerce solution utilizing Stripe integration and serverless architecture.",
-      image: Image2,
-      liveDemo: "https://neo-commerce.vercel.app",
-      frontend: "https://github.com/username/neo-commerce-frontend",
-      backend: "https://github.com/username/neo-commerce-backend",
-    },
-    {
-      title: "SYNAPSE API",
-      tags: ["EXPRESS", "MONGO"],
-      description: "A robust, high-throughput microservices gateway for AI-driven content-generation pipelines.",
-      image: Image3,
-      liveDemo: "https://synapse-api.vercel.app",
-      frontend: "https://github.com/username/synapse-frontend",
-      backend: "https://github.com/username/synapse-backend",
-    },
-  ];
+
+
+  const [projects, setProjects] = useState([])
+  console.log("project", projects)
+  useEffect(() => {
+    let mounted = true
+    ;(async () => {
+      try {
+        const api = await fetchProjects()
+        if (!mounted) return
+        const mapped = api.map((p: any) => ({
+          title: p.title || 'Untitled',
+          tags: Array.isArray(p.technologies) ? p.technologies : [],
+          description: p.description || '',
+          image: p.image || Image1,
+          liveDemo: p.liveLink || '',
+          frontend: p.githubLinkFrontend || '',
+          backend: p.githubLinkBackend || '',
+        }))
+        if (mapped.length > 0) setProjects(mapped)
+      } catch (err) {
+        // keep initialProjects as fallback
+        // eslint-disable-next-line no-console
+        console.error('fetchProjects failed', err)
+      }
+    })()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   return (
     <div ref={sectionRef} className="bg-[#F4F7FF]">
