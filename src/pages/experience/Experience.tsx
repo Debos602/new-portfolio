@@ -1,12 +1,28 @@
 import { BoltIcon, DbIcon, GearIcon } from "@/components/Icons";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import bgShape from "@/assets/Background Wave Shape.png";
+import fetchExperience, { TExperience } from "@/api/experience/apiExperience";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
-const experiences = [
+// ── Types ──────────────────────────────────────────────────────────────────────
+
+type IconKey = "bolt" | "db" | "gear";
+
+type MappedExperience = {
+  period: string;
+  role: string;
+  company: string;
+  highlights: { icon: IconKey; text: string }[];
+  tags: string[];
+};
+
+// ── Constants ──────────────────────────────────────────────────────────────────
+
+const FALLBACK: MappedExperience[] = [
   {
     period: "Jan 2023 — Present",
     role: "Senior MERN Architect",
@@ -65,37 +81,101 @@ const experiences = [
   },
 ];
 
-const iconMap = {
+const ICON_MAP: Record<IconKey, JSX.Element> = {
   bolt: <BoltIcon />,
-  db: <DbIcon />,
+  db:   <DbIcon />,
   gear: <GearIcon />,
 };
 
-const iconStyles = [
+// Cycle bolt → db → gear by responsibility index position
+const INDEX_TO_ICON: IconKey[] = ["bolt", "db", "gear"];
+
+const ICON_STYLES = [
   { bg: "bg-amber-50",  border: "border-amber-200",  color: "text-amber-600"  },
   { bg: "bg-teal-50",   border: "border-teal-200",   color: "text-teal-600"   },
   { bg: "bg-indigo-50", border: "border-indigo-200", color: "text-indigo-500" },
 ];
 
-export const Experience = () => {
-  const sectionRef = useRef(null);
-  const headerRef  = useRef(null);
+// ── Helpers ────────────────────────────────────────────────────────────────────
 
-  // Desktop refs: { meta, dot, card, line }
-  const desktopRowRefs = useRef([]);
-  const setDesktopRef  = (idx, key) => (el) => {
-    if (!desktopRowRefs.current[idx]) desktopRowRefs.current[idx] = {};
-    desktopRowRefs.current[idx][key] = el;
+function formatPeriod(exp: TExperience): string {
+  const fmt = (iso: string) =>
+    new Date(iso).toLocaleString(undefined, { month: "short", year: "numeric" });
+  const start = fmt(exp.startDate);
+  const end   = exp.isPresent ? "Present" : exp.endDate ? fmt(exp.endDate) : "";
+  return end ? `${start} — ${end}` : start;
+}
+
+function mapToView(item: TExperience): MappedExperience {
+  return {
+    period:     formatPeriod(item),
+    role:       item.jobTitle,
+    company:    item.company,
+    highlights: item.responsibilities.slice(0, 3).map((r, i) => ({
+      // Prefer the backend `icon` field if it maps to a known key, otherwise fall back by index
+      icon: (["bolt", "db", "gear"].includes(r.icon ?? "")
+        ? (r.icon as IconKey)
+        : INDEX_TO_ICON[i % 3]),
+      text: r.details,
+    })),
+    tags: item.technologies,
   };
+}
+
+// ── Component ──────────────────────────────────────────────────────────────────
+
+export const Experience = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headerRef  = useRef<HTMLDivElement>(null);
+
+  const desktopRowRefs = useRef<{ meta?: Element; dot?: Element; card?: Element; line?: Element }[]>([]);
+
+  const setDesktopRef =
+    (idx: number, key: "meta" | "dot" | "card" | "line") =>
+    (el: Element | null) => {
+      if (!desktopRowRefs.current[idx]) desktopRowRefs.current[idx] = {};
+      if (el) desktopRowRefs.current[idx][key] = el;
+    };
+
+  // ── Data ─────────────────────────────────────────────────────────────────────
+
+  const [list, setList]       = useState<MappedExperience[]>(FALLBACK);
+  const [loading, setLoading] = useState(true);
+  const [error, setError]     = useState<string | null>(null);
 
   useEffect(() => {
+    let mounted = true;
+
+    fetchExperience()
+      .then((data) => {
+        if (!mounted) return;
+        if (data.length > 0) setList(data.map(mapToView));
+        setLoading(false);
+      })
+      .catch((err: Error) => {
+        if (!mounted) return;
+        console.error("[Experience] API error — using fallback data.", err.message);
+        setError(err.message);
+        setLoading(false);
+        // FALLBACK already set as initial state, so UI stays populated
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // ── GSAP ──────────────────────────────────────────────────────────────────────
+
+  useEffect(() => {
+    if (loading) return; // wait until real data is in place before pinning triggers
+
     const ctx = gsap.context(() => {
-      // ── Only run timeline GSAP on md+ (768px) ──────────────────────
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
-        // ── Header ───────────────────────────────────────────────────
-        const [hTitle, hPara] = headerRef.current.children;
+        if (!headerRef.current) return;
+        const [hTitle, hPara] = Array.from(headerRef.current.children);
 
         gsap.fromTo(
           hTitle,
@@ -116,7 +196,6 @@ export const Experience = () => {
           }
         );
 
-        // ── Timeline rows ─────────────────────────────────────────────
         desktopRowRefs.current.forEach((refs, idx) => {
           if (!refs) return;
           const { meta, dot, card, line } = refs;
@@ -151,7 +230,7 @@ export const Experience = () => {
             "-=0.45"
           );
 
-          const tags = card?.querySelectorAll(".tag-item");
+          const tags = (card as Element)?.querySelectorAll(".tag-item");
           if (tags?.length) {
             tl.fromTo(
               tags,
@@ -165,7 +244,9 @@ export const Experience = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [loading]); // re-run once loading flips to false
+
+  // ── Render ────────────────────────────────────────────────────────────────────
 
   return (
     <div
@@ -192,13 +273,19 @@ export const Experience = () => {
         </p>
       </div>
 
+      {/* ── Error banner (non-blocking — fallback data is still shown) ── */}
+      {error && (
+        <p className="text-[12px] text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2 mb-8 font-mono">
+          Could not load live data — showing cached experience.
+        </p>
+      )}
+
       {/* ── Timeline ────────────────────────────────────────────────── */}
       <div className="w-full md:container mx-auto relative">
-        {experiences.map((exp, idx) => {
-          const isEven      = idx % 2 === 0;
-          const isLastItem  = idx === experiences.length - 1;
+        {list.map((exp, idx) => {
+          const isEven     = idx % 2 === 0;
+          const isLastItem = idx === list.length - 1;
 
-          // ── Shared card content (used in both mobile & desktop) ────
           const cardInner = (
             <>
               <div className="flex flex-col gap-3 md:gap-[16px]">
@@ -206,9 +293,9 @@ export const Experience = () => {
                   <div key={i} className="flex gap-2.5 md:gap-[10px] items-start">
                     <div
                       className={`w-7 h-7 md:w-8 md:h-8 rounded-md flex items-center justify-center shrink-0 mt-0.5 border
-                        ${iconStyles[i].bg} ${iconStyles[i].border} ${iconStyles[i].color}`}
+                        ${ICON_STYLES[i].bg} ${ICON_STYLES[i].border} ${ICON_STYLES[i].color}`}
                     >
-                      {iconMap[h.icon]}
+                      {ICON_MAP[h.icon]}
                     </div>
                     <p className="text-[14px] md:text-[16px] leading-[1.6] font-normal text-slate-600">
                       {h.text}
@@ -231,12 +318,8 @@ export const Experience = () => {
 
           return (
             <div key={idx}>
-              {/* ════════════════════════════════════════════════════════
-                  MOBILE LAYOUT  (< md)
-                  Left-rail timeline: dot + line on left, content on right
-              ════════════════════════════════════════════════════════ */}
+              {/* ════ MOBILE LAYOUT (< md) ════ */}
               <div className="flex md:hidden gap-4 pb-2">
-                {/* Left rail */}
                 <div className="flex flex-col items-center ml-1 shrink-0">
                   <div
                     className="w-3 h-3 rounded-full bg-teal-400 mt-1.5 z-10 shrink-0"
@@ -245,16 +328,11 @@ export const Experience = () => {
                   {!isLastItem && (
                     <div
                       className="w-px flex-1 min-h-[12px]"
-                      style={{
-                        background: "linear-gradient(to bottom, #99e6da 0%, transparent 100%)",
-                      }}
+                      style={{ background: "linear-gradient(to bottom, #99e6da 0%, transparent 100%)" }}
                     />
                   )}
                 </div>
-
-                {/* Right content */}
                 <div className="flex-1 pb-8">
-                  {/* Meta */}
                   <div className="mb-3">
                     <p className="font-mono text-[#006A71] font-medium text-[11px] leading-[1.4] tracking-[1.2px] uppercase">
                       {exp.period}
@@ -266,104 +344,49 @@ export const Experience = () => {
                       {exp.company}
                     </p>
                   </div>
-
-                  {/* Card */}
                   <div className="bg-white rounded-2xl border border-slate-100 p-4 shadow-sm">
                     {cardInner}
                   </div>
                 </div>
               </div>
 
-              {/* ════════════════════════════════════════════════════════
-                  DESKTOP LAYOUT  (md+)
-                  Alternating 3-col grid with GSAP animations
-              ════════════════════════════════════════════════════════ */}
+              {/* ════ DESKTOP LAYOUT (md+) ════ */}
               <div
                 className="hidden md:grid items-center"
                 style={{ gridTemplateColumns: "1fr 40px 1fr" }}
               >
                 {isEven ? (
                   <>
-                    {/* META — left */}
-                    <div
-                      ref={setDesktopRef(idx, "meta")}
-                      className="pt-2.5 pr-9 text-right"
-                    >
-                      <p className="font-mono text-[#006A71] font-medium text-[14px] leading-[1.4] tracking-[1.4px]">
-                        {exp.period}
-                      </p>
-                      <p className="text-[24px] font-bold text-[#191C20] leading-[1.3] font-heading">
-                        {exp.role}
-                      </p>
-                      <p className="text-[18px] font-semibold text-[#8E33E4] leading-[1.5]">
-                        {exp.company}
-                      </p>
+                    <div ref={setDesktopRef(idx, "meta")} className="pt-2.5 pr-9 text-right">
+                      <p className="font-mono text-[#006A71] font-medium text-[14px] leading-[1.4] tracking-[1.4px]">{exp.period}</p>
+                      <p className="text-[24px] font-bold text-[#191C20] leading-[1.3] font-heading">{exp.role}</p>
+                      <p className="text-[18px] font-semibold text-[#8E33E4] leading-[1.5]">{exp.company}</p>
                     </div>
 
-                    {/* DOT + LINE — center */}
                     <div className="flex flex-col items-center">
-                      <div
-                        ref={setDesktopRef(idx, "dot")}
-                        className="w-3 h-3 rounded-full bg-teal-400 mt-3.5 z-10 shrink-0"
-                        style={{ border: "2.5px solid #fff", boxShadow: "0 0 0 2px #2dd4bf" }}
-                      />
-                      <div
-                        ref={setDesktopRef(idx, "line")}
-                        className="w-px flex-1 min-h-[160px]"
-                        style={{
-                          background:
-                            "linear-gradient(to bottom, #99e6da 0%, transparent 100%)",
-                        }}
-                      />
+                      <div ref={setDesktopRef(idx, "dot")} className="w-3 h-3 rounded-full bg-teal-400 mt-3.5 z-10 shrink-0" style={{ border: "2.5px solid #fff", boxShadow: "0 0 0 2px #2dd4bf" }} />
+                      <div ref={setDesktopRef(idx, "line")} className="w-px flex-1 min-h-[160px]" style={{ background: "linear-gradient(to bottom, #99e6da 0%, transparent 100%)" }} />
                     </div>
 
-                    {/* CARD — right */}
                     <div ref={setDesktopRef(idx, "card")} className="md:pt-1 pl-9">
-                      <div className="bg-white rounded-2xl border border-slate-100 p-[32px] shadow-sm">
-                        {cardInner}
-                      </div>
+                      <div className="bg-white rounded-2xl border border-slate-100 p-[32px] shadow-sm">{cardInner}</div>
                     </div>
                   </>
                 ) : (
                   <>
-                    {/* CARD — left */}
                     <div ref={setDesktopRef(idx, "card")} className="md:pt-1 pr-9">
-                      <div className="bg-white rounded-2xl border border-slate-100 p-[32px] shadow-sm">
-                        {cardInner}
-                      </div>
+                      <div className="bg-white rounded-2xl border border-slate-100 p-[32px] shadow-sm">{cardInner}</div>
                     </div>
 
-                    {/* DOT + LINE — center */}
                     <div className="flex flex-col items-center">
-                      <div
-                        ref={setDesktopRef(idx, "dot")}
-                        className="w-3 h-3 rounded-full bg-teal-400 mt-3.5 z-10 shrink-0"
-                        style={{ border: "2.5px solid #fff", boxShadow: "0 0 0 2px #2dd4bf" }}
-                      />
-                      <div
-                        ref={setDesktopRef(idx, "line")}
-                        className="w-px flex-1 min-h-[160px]"
-                        style={{
-                          background:
-                            "linear-gradient(to bottom, #99e6da 0%, transparent 100%)",
-                        }}
-                      />
+                      <div ref={setDesktopRef(idx, "dot")} className="w-3 h-3 rounded-full bg-teal-400 mt-3.5 z-10 shrink-0" style={{ border: "2.5px solid #fff", boxShadow: "0 0 0 2px #2dd4bf" }} />
+                      <div ref={setDesktopRef(idx, "line")} className="w-px flex-1 min-h-[160px]" style={{ background: "linear-gradient(to bottom, #99e6da 0%, transparent 100%)" }} />
                     </div>
 
-                    {/* META — right */}
-                    <div
-                      ref={setDesktopRef(idx, "meta")}
-                      className="pt-2.5 pl-9 text-left"
-                    >
-                      <p className="font-mono text-[#006A71] font-medium text-[14px] leading-[1.4] tracking-[1.4px]">
-                        {exp.period}
-                      </p>
-                      <p className="text-[24px] font-bold text-[#191C20] leading-[1.3] font-heading">
-                        {exp.role}
-                      </p>
-                      <p className="text-[18px] font-semibold text-[#8E33E4] leading-[1.5]">
-                        {exp.company}
-                      </p>
+                    <div ref={setDesktopRef(idx, "meta")} className="pt-2.5 pl-9 text-left">
+                      <p className="font-mono text-[#006A71] font-medium text-[14px] leading-[1.4] tracking-[1.4px]">{exp.period}</p>
+                      <p className="text-[24px] font-bold text-[#191C20] leading-[1.3] font-heading">{exp.role}</p>
+                      <p className="text-[18px] font-semibold text-[#8E33E4] leading-[1.5]">{exp.company}</p>
                     </div>
                   </>
                 )}
