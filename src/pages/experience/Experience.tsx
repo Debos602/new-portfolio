@@ -22,64 +22,6 @@ type MappedExperience = {
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
-const FALLBACK: MappedExperience[] = [
-  {
-    period: "Jan 2023 — Present",
-    role: "Senior MERN Architect",
-    company: "Nexus Core Solutions",
-    highlights: [
-      {
-        icon: "bolt",
-        text: "Lead developer for a high-traffic fintech dashboard using React, Redux Toolkit, and Node.js, servicing over 250k daily active users with sub-second response times.",
-      },
-      {
-        icon: "db",
-        text: "Optimized MongoDB aggregation pipelines and indexing strategies, reducing data fetch latency by 45% for historical data sets exceeding 1M+ active records.",
-      },
-      {
-        icon: "gear",
-        text: "Architected a modern microservices environment using Docker, Kubernetes, and AWS Lambda to successfully decouple a legacy PHP monolith.",
-      },
-    ],
-    tags: ["MongoDB", "Express", "React", "Node.js", "Docker"],
-  },
-  {
-    period: "Mar 2021 — Dec 2022",
-    role: "Full Stack Developer",
-    company: "Ether Media Group",
-    highlights: [
-      {
-        icon: "bolt",
-        text: "Built and maintained 15+ pixel-perfect landing pages and client-facing React applications, focusing on performance and SEO optimization.",
-      },
-      {
-        icon: "db",
-        text: "Implemented robust Auth0 and JWT-based authentication flows for enterprise-level security across the company's internal portal.",
-      },
-      {
-        icon: "gear",
-        text: "Integrated third-party REST APIs for multi-gateway payment processing and automated lifecycle email marketing systems.",
-      },
-    ],
-    tags: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL"],
-  },
-  {
-    period: "Jun 2019 — Feb 2021",
-    role: "Junior Web Developer",
-    company: "Static Studio Co.",
-    highlights: [
-      {
-        icon: "bolt",
-        text: "Collaborated closely with designers to translate complex Figma design systems into scalable and reusable component libraries using Styled Components.",
-      },
-      {
-        icon: "db",
-        text: "Improved Google Lighthouse performance scores from an average of 65 to 98 across the company's client portfolio through lazy loading and asset optimization.",
-      },
-    ],
-    tags: ["HTML/CSS", "JavaScript", "Figma", "GSAP"],
-  },
-];
 
 const ICON_MAP: Record<IconKey, JSX.Element> = {
   bolt: <BoltIcon />,
@@ -139,7 +81,7 @@ export const Experience = () => {
 
   // ── Data ─────────────────────────────────────────────────────────────────────
 
-  const [list, setList]       = useState<MappedExperience[]>(FALLBACK);
+  const [list, setList]       = useState<MappedExperience[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState<string | null>(null);
 

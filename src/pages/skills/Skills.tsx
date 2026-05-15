@@ -1,8 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+import { getStats } from "../../api/stats/apiStats";
+import { fetchSkills } from "../../api/skill/apiSkill";
 
 const languages = [
   { name: "JavaScript (ES6+)", sub: "Advanced Core", pct: 95, color: "from-[#006A71] to-[#8FF5FF]" },
@@ -42,7 +44,7 @@ const devOps = [
   { label: "Postman", dot: "bg-[#006A71]/40" },
 ];
 
-const stats = [
+const statsDefault = [
   { label: "Code Quality", val: "A+" },
   { label: "Commits/Year", val: "2.4k" },
   { label: "Projects", val: "42" },
@@ -80,6 +82,11 @@ export const Skills = () => {
   const progressBarsRef = useRef([]);
   const devopsTagsRef = useRef([]);
   const statsRef = useRef([]);
+  const [stats, setStats] = useState(statsDefault);
+  const [languagesState, setLanguagesState] = useState(languages);
+  const [frameworksState, setFrameworksState] = useState(frameworks);
+  const [persistenceState, setPersistenceState] = useState(persistence);
+  const [devOpsState, setDevOpsState] = useState(devOps);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -212,6 +219,57 @@ export const Skills = () => {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    let mounted = true;
+    getStats()
+      .then((data) => {
+        console.log("Fetched stats:", data);
+        if (!mounted || !data) return;
+        setStats([
+          { label: "Code Quality", val: data.codeQuality },
+          { label: "Commits/Year", val: data.commitsPerYear },
+          { label: "Projects", val: String(data.projects) },
+          { label: "Uptime", val: data.uptime },
+        ]);
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    fetchSkills()
+      .then((items) => {
+        if (!mounted || !items) return;
+        const langs = items
+          .filter((s) => s.category === "language")
+          .map((s) => ({ name: s.name, pct: s.proficiency ?? 75, color: "from-[#006A71] to-[#8FF5FF]", sub: s.proficiency ? `${s.proficiency}%` : "" }));
+
+        const frs = items
+          .filter((s) => s.category === "framework")
+          .map((s) => ({ name: s.name, color: "bg-blue-500", bars: Math.min(5, Math.max(1, Math.round((s.proficiency ?? 80) / 20))) }));
+
+        const pers = items
+          .filter((s) => s.category === "persistence")
+          .map((s) => ({ name: s.name, icon: s.icon || undefined, level: s.level ? s.level : "Proficient", filled: s.proficiency ? Math.min(5, Math.round((s.proficiency ?? 60) / 20)) : 3, badgeColor: "bg-green-100 text-emerald-700", barColor: "bg-[#006A71]" }));
+
+        const dev = items.filter((s) => s.category === "devops").map((s) => ({ label: s.name, dot: "bg-[#006A71]/40" }));
+
+        if (mounted) {
+          if (langs.length) setLanguagesState(langs as any);
+          if (frs.length) setFrameworksState(frs as any);
+          if (pers.length) setPersistenceState(pers as any);
+          if (dev.length) setDevOpsState(dev as any);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   return (
     <section
       ref={sectionRef}
@@ -266,7 +324,7 @@ export const Skills = () => {
               <span className="text-[10px] font-normal text-[#70797B] font-liberation bg-[#EEF4F6] px-[8px] py-[4px] rounded-[8px]">01</span>
             </div>
 
-            {languages.map((lang, i) => (
+            {languagesState.map((lang, i) => (
               <div key={lang.name} className="mb-5 last:mb-0">
                 <div className="flex justify-between items-end mb-1">
                   <div className="mb-[8px]">
@@ -302,7 +360,7 @@ export const Skills = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
-              {frameworks.map((fw, index) => (
+              {frameworksState.map((fw, index) => (
                 <div key={fw.name} className="border border-slate-200 rounded-[16px] p-3 sm:p-4 flex flex-col gap-2 transition-shadow duration-200 hover:shadow-md">
                   <div className="flex gap-2">
                     {icons[index % icons.length]}
@@ -337,11 +395,9 @@ export const Skills = () => {
               <span className="text-[10px] font-normal text-[#70797B] font-liberation leading-[1.5] tracking-[1] bg-[#EEF4F6] px-[8px] py-[4px] rounded-[8px]">03</span>
             </div>
 
-            {persistence.map((db) => (
+            {persistenceState.map((db) => (
               <div key={db.name} className="flex items-center gap-3 sm:gap-4 mb-5 sm:mb-6 last:mb-0">
-                <div className="px-[11.5px] py-[12.33px] rounded-lg bg-[#EEF4F6] flex items-center justify-center text-sm flex-shrink-0">
-                  {db.icon}
-                </div>
+            
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-center mb-[4px] gap-2">
                     <span className="text-[13px] sm:text-[14px] font-bold text-[#191C1E] truncate">{db.name}</span>
@@ -407,7 +463,7 @@ export const Skills = () => {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {devOps.map((t, i) => (
+              {devOpsState.map((t, i) => (
                 <div
                   key={t.label}
                   ref={(el) => (devopsTagsRef.current[i] = el)}
