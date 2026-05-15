@@ -5,6 +5,7 @@ import Image1 from "../../assets/project1.png"
 import Image2 from "../../assets/project2.png"
 import Image3 from "../../assets/project3.png"
 import fetchProjects from "../../api/project/apiProject"
+import ProjectsSkeleton from "@/components/Projectsskeleton"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -86,6 +87,7 @@ export const Projects = () => {
 
 
   const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
   console.log("project", projects)
   useEffect(() => {
     let mounted = true
@@ -103,10 +105,13 @@ export const Projects = () => {
           backend: p.githubLinkBackend || '',
         }))
         if (mapped.length > 0) setProjects(mapped)
+          setLoading(false)
       } catch (err) {
         // keep initialProjects as fallback
         // eslint-disable-next-line no-console
         console.error('fetchProjects failed', err)
+      } finally {
+        setLoading(false)
       }
     })()
 
@@ -114,6 +119,11 @@ export const Projects = () => {
       mounted = false
     }
   }, [])
+
+  if(loading) {
+    // Show skeleton while loading real data (fallback data is still present in background)
+    return <ProjectsSkeleton />;
+  }
 
   return (
     <div ref={sectionRef} className="bg-[#F4F7FF]">

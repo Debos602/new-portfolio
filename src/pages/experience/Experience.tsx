@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import bgShape from "@/assets/Background Wave Shape.png";
 import fetchExperience, { TExperience } from "@/api/experience/apiExperience";
+import { ExperienceSkeleton } from "@/components/Experienceskeleton";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -84,7 +85,7 @@ export const Experience = () => {
   const [list, setList]       = useState<MappedExperience[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState<string | null>(null);
-
+  
   useEffect(() => {
     let mounted = true;
 
@@ -189,6 +190,11 @@ export const Experience = () => {
   }, [loading]); // re-run once loading flips to false
 
   // ── Render ────────────────────────────────────────────────────────────────────
+
+  if(loading) {
+    // Show skeleton while loading real data (fallback data is still present in background)
+    return <ExperienceSkeleton />;
+  }
 
   return (
     <div

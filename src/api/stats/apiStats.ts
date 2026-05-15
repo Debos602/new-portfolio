@@ -1,7 +1,9 @@
 export type StatsData = {
   codeQuality: string;
   commitsPerYear: string;
-  projects: number;
+  // API may return `projects` (number) or `projectsDone` (string like "11+")
+  projects?: number | string;
+  projectsDone?: string;
   uptime: string;
 };
 

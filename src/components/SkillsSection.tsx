@@ -1,122 +1,227 @@
-import { useEffect, useRef } from "react";
-import { ArrowRight, Layers, Gem, Cloud } from "lucide-react";
-import { Link } from "react-router-dom";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+// src/components/ui/skillSkeleton.tsx
 
-gsap.registerPlugin(ScrollTrigger);
+import { cn } from "@/lib/utils";
 
-const skills = [
-  {
-    icon: Layers,
-    title: "Backend Architecture",
-    description: "Designing robust server-side logic with Node.js, GraphQL, and high-performance databases.",
-    color: "text-primary",
-    bg: "bg-primary/10",
-  },
-  {
-    icon: Gem,
-    title: "Frontend Mastery",
-    description: "Crafting responsive, high-fidelity user interfaces with React, Next.js, and modern CSS.",
-    color: "text-accent",
-    bg: "bg-accent/10",
-  },
-  {
-    icon: Cloud,
-    title: "Cloud Systems",
-    description: "Deploying and scaling applications on AWS and Vercel for maximum availability.",
-    color: "text-blue-500",
-    bg: "bg-blue-500/10",
-  },
-];
+/* ─── Primitive ──────────────────────────────────────────────────────────── */
+// Mirrors shadcn's <Skeleton /> so you can swap it for the real one if needed.
+function Sk({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn(
+        "animate-pulse rounded-md bg-[#cde8ea]",
+        className
+      )}
+      {...props}
+    />
+  );
+}
 
-const SkillsSection = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
+// Dark variant for the teal stats card
+function SkDark({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn(
+        "animate-pulse rounded-md bg-[#005c63]",
+        className
+      )}
+      {...props}
+    />
+  );
+}
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        headingRef.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1, y: 0, duration: 0.8,
-          scrollTrigger: { trigger: headingRef.current, start: "top 85%" },
-        }
-      );
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+function HeaderSkeleton() {
+  return (
+    <div className="mb-10 md:mb-16">
+      <div className="flex items-center gap-3 mb-4">
+        <Sk className="h-[2px] w-12 rounded-none" />
+        <Sk className="h-3 w-40" />
+      </div>
+      <Sk className="h-14 w-[52%] rounded-xl mb-4" />
+      <Sk className="h-4 w-[78%] mb-2" />
+      <Sk className="h-4 w-[58%]" />
+    </div>
+  );
+}
 
-      gsap.fromTo(
-        cardsRef.current?.children || [],
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1, y: 0, duration: 0.6, stagger: 0.15,
-          scrollTrigger: { trigger: cardsRef.current, start: "top 85%" },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+/* ─── Card 1 — Languages ─────────────────────────────────────────────────── */
+function LanguagesCardSkeleton() {
+  const rows: { pct: number }[] = [{ pct: 95 }, { pct: 90 }, { pct: 75 }];
 
   return (
-    <section ref={sectionRef} className="bg-[#F4FAFF]">
+    <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6">
+      {/* card header */}
+      <div className="flex items-center justify-between mb-6 sm:mb-8">
+        <div className="flex items-center gap-3">
+          <Sk className="h-4 w-5" />
+          <Sk className="h-5 w-24" />
+        </div>
+        <Sk className="h-[22px] w-7 rounded-lg" />
+      </div>
 
-     <div className=" py-0 md:py-24 relative overflow-hidden">
-       {/* Gradient 1 — Cyan #00EEFC (8% → 0%) */}
-      <div
-        className="absolute top-0 right-[200px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(0,238,252,0.08) 0%, rgba(0,238,252,0) 50%)",
-        }}
-      />
-
-      {/* Gradient 2 — Purple #7E3FF2 (5% → 0%) */}
-      <div
-        className="absolute top-20 left-[100px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(126,63,242,0.05) 0%, rgba(126,63,242,0) 50%)",
-        }}
-      />
-
-      {/* Gradient 3 — Teal #006874 (3% → 0%) */}
-      <div
-        className="absolute bottom-0 right-[488px] z-0 h-[600px] w-[600px] rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(0,104,116,0.03) 0%, rgba(0,104,116,0) 50%)",
-        }}
-      />
-
-      <div className="relative z-10">
-        <div ref={headingRef} className="flex flex-col md:flex-row md:items-end md:justify-between mb-14 opacity-0">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-3">
-              The Alchemist's Forge
-            </h2>
-            <p className="text-muted-foreground max-w-lg">
-              Leveraging modern web technologies to create scalable, maintenance-free digital infrastructure.
-            </p>
+      {/* language rows */}
+      {rows.map(({ pct }, i) => (
+        <div key={i} className="mb-5 last:mb-0">
+          <div className="flex justify-between items-end mb-2">
+            <div className="space-y-1.5">
+              <Sk className="h-3.5 w-36" />
+              <Sk className="h-2.5 w-24" />
+            </div>
+            <Sk className="h-3.5 w-9" />
           </div>
-          <Link to="/skills" className="mt-4 md:mt-0 inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all">
-            Explore all skills <ArrowRight size={18} />
-          </Link>
+          <div className="h-[5px] bg-slate-100 rounded-full overflow-hidden">
+            <Sk
+              className="h-[8px] rounded-full"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ─── Card 2 — Frameworks ────────────────────────────────────────────────── */
+function FrameworksCardSkeleton() {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6">
+      {/* card header */}
+      <div className="flex items-center justify-between mb-5 sm:mb-6">
+        <div className="flex items-center gap-3">
+          <Sk className="h-6 w-6 rounded-md" />
+          <Sk className="h-5 w-28" />
+        </div>
+        <Sk className="h-[22px] w-7 rounded-lg" />
+      </div>
+
+      {/* 2 × 2 framework cards */}
+      <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div
+            key={i}
+            className="border border-slate-200 rounded-[16px] p-3 sm:p-4 flex flex-col gap-2"
+          >
+            <Sk className="h-5 w-5 rounded-md" />
+            <Sk className="h-3.5 w-[70%] mb-1" />
+            <div className="flex gap-1">
+              {Array.from({ length: 5 }).map((_, b) => (
+                <div key={b} className="flex-1 h-[3px] rounded-full bg-slate-200" />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Card 3 — Persistence ───────────────────────────────────────────────── */
+function PersistenceCardSkeleton() {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 md:col-span-2 lg:col-span-1">
+      {/* card header */}
+      <div className="flex items-center justify-between mb-5 sm:mb-6">
+        <div className="flex items-center gap-3">
+          <Sk className="h-[18px] w-[18px] rounded-md" />
+          <Sk className="h-5 w-24" />
+        </div>
+        <Sk className="h-[22px] w-7 rounded-lg" />
+      </div>
+
+      {/* 3 DB rows */}
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div key={i} className="mb-5 sm:mb-6 last:mb-0">
+          <div className="flex justify-between items-center mb-1.5 gap-2">
+            <Sk className="h-3.5 w-[55%]" />
+            <Sk className="h-4 w-16 rounded-md" />
+          </div>
+          <div className="flex gap-1">
+            {Array.from({ length: 4 }).map((_, b) => (
+              <div key={b} className="flex-1 h-[6px] rounded-full bg-slate-200" />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ─── Stats dark card ────────────────────────────────────────────────────── */
+function StatsCardSkeleton() {
+  return (
+    <div className="bg-[#006A71] rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+      {/* subtle texture overlay */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-10 pointer-events-none"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%)",
+          backgroundSize: "6px 6px",
+        }}
+      />
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 gap-x-4 gap-y-6 sm:gap-y-4 md:gap-y-8 relative z-10">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="space-y-2.5">
+            <SkDark className="h-2.5 w-20" />
+            <SkDark className="h-9 w-[70px] rounded-lg" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── DevOps card ────────────────────────────────────────────────────────── */
+const TAG_WIDTHS: number[] = [88, 104, 140, 112, 96, 80, 92];
+
+function DevOpsCardSkeleton() {
+  return (
+    <div className="bg-white/70 rounded-2xl border border-[#006A71]/10 p-6 sm:p-8 md:col-span-2">
+      {/* card header */}
+      <div className="flex items-center justify-between mb-6 sm:mb-8">
+        <div className="flex items-center gap-2">
+          <Sk className="h-[18px] w-[18px] rounded-md" />
+          <Sk className="h-5 w-40" />
+        </div>
+        <Sk className="h-[22px] w-7 rounded-lg" />
+      </div>
+
+      {/* tag pills */}
+      <div className="flex flex-wrap gap-2">
+        {TAG_WIDTHS.map((w, i) => (
+          <Sk
+            key={i}
+            className="h-10 rounded-[24px]"
+            style={{ width: w }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Composed export ────────────────────────────────────────────────────── */
+export function SkillSkeleton() {
+  return (
+    <section className="bg-[#F4FAFF] pt-10 pb-16 md:pt-[59px] md:pb-[72px] lg:py-[72px]">
+      <div className="container px-4 sm:px-6 lg:px-8">
+        <HeaderSkeleton />
+
+        {/* top row */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-8 mb-5 md:mb-6 lg:mb-8">
+          <LanguagesCardSkeleton />
+          <FrameworksCardSkeleton />
+          <PersistenceCardSkeleton />
         </div>
 
-        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {skills.map((skill) => (
-            <div key={skill.title} className="card-skill border  border-[#006874]/10 opacity-0">
-              <div className={`w-14 h-14 rounded-2xl ${skill.bg} flex items-center justify-center mb-6`}>
-                <skill.icon size={24} className={skill.color} />
-              </div>
-              <h3 className="text-xl font-heading font-bold text-foreground mb-3">{skill.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{skill.description}</p>
-            </div>
-          ))}
+        {/* bottom row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 lg:gap-8">
+          <StatsCardSkeleton />
+          <DevOpsCardSkeleton />
         </div>
       </div>
-     </div>
     </section>
   );
-};
-
-export default SkillsSection;
+}

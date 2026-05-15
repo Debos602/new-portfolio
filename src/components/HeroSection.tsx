@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Download } from "lucide-react";
 import gsap from "gsap";
 import codeEditorImg from "@/assets/code-editor.jpg";
-import SkillsSection from "./SkillsSection";
+import HeroSkillsection from "./HeroSkillsection";
+
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -196,7 +197,7 @@ const HeroSection = () => {
           </div>
         </div>
 
-       <SkillsSection />
+       <HeroSkillsection/>
       </div>
     </section>
   );
