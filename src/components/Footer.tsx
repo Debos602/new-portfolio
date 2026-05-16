@@ -116,7 +116,7 @@ const Footer = () => {
                 <span className="text-primary-foreground font-heading font-bold text-sm">&gt;_</span>
               </div>
               <span className="font-heading font-bold text-base md:text-lg tracking-tight text-foreground">
-                ALCHEMIST.DEV
+                DEBOS.DAS
               </span>
             </Link>
             <p className="text-muted-foreground text-xs md:text-sm leading-relaxed mb-6">
