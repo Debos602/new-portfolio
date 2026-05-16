@@ -19,7 +19,7 @@ export type ApiResponse<T> = {
 	data: T;
 };
 
-const DEFAULT_BASE = 'http://localhost:5000';
+const DEFAULT_BASE = 'https://new-portfolio-backend-theta.vercel.app';
 
 function getBaseUrl() {
 	// Allow overriding with Vite env var `VITE_API_URL`

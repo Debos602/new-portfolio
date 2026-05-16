@@ -270,7 +270,7 @@ export const Projects = () => {
                     href={project.liveDemo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-[8px] text-[#FFFFFF] font-heading font-bold text-[14px] leading-[1.4] py-[12px] px-[24px] bg-gradient-to-r from-[#00DEEC] to-[#C180FF] rounded-[20px]"
+                    className="flex items-center justify-center gap-[8px] text-[#FFFFFF] font-heading font-bold text-[14px] leading-[1.4] py-[12px] px-[24px] bg-gradient-to-r from-[#006874] to-[#7E3FF2] rounded-[20px]"
                   >
                     <span>
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

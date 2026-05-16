@@ -67,9 +67,10 @@ const values = [
 ];
 
 const tools = [
+  { name: "PostgreSQL", icon: Icon1},
   { name: "MongoDB", icon: Icon1},
   { name: "Express", icon: Icon2 },
-  { name: "React", icon: Icon3 },
+  { name: "React", icon: Icon3 }, 
   { name: "Node.js", icon: Icon4 },
   { name: "TypeScript", icon: Icon5 },
   { name: "Git VCS", icon: Icon6 },
@@ -206,7 +207,7 @@ const About = () => {
                 <div className="stat-label">Months Experience</div>
               </div>
               <div className="opacity-0">
-                <div className="stat-number">142</div>
+                <div className="stat-number">68</div>
                 <div className="stat-label">Deployments</div>
               </div>
             </div>

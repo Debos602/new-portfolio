@@ -158,7 +158,7 @@ const HeroSection = () => {
             <div ref={ctaRef} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto opacity-0">
               <Link
                 to="/projects"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-7 sm:py-3.5 lg:px-8 lg:py-4 rounded-full bg-primary text-primary-foreground font-medium text-sm lg:text-base transition-all duration-200 hover:shadow-lg hover:shadow-primary/20"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-7 sm:py-3.5 lg:px-8 lg:py-4 rounded-full  bg-gradient-to-r from-[#006874] to-[#7E3FF2] text-primary-foreground font-medium text-sm lg:text-base transition-all duration-200 hover:shadow-lg hover:shadow-primary/20"
               >
                 View Portfolio <ArrowRight size={16} />
               </Link>

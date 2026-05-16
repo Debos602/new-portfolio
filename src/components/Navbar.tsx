@@ -184,7 +184,7 @@ const Navbar = () => {
           <Link
             ref={ctaRef}
             to="/contact"
-            className="hidden lg:inline-flex items-center px-6 xl:px-8 py-2.5 rounded-full bg-primary text-primary-foreground font-medium text-sm transition-all duration-200 hover:opacity-90 hover:shadow-lg flex-shrink-0"
+            className="hidden lg:inline-flex items-center px-6 xl:px-8 py-2.5 rounded-full  bg-gradient-to-r from-[#006874] to-[#7E3FF2] text-primary-foreground font-medium text-sm transition-all duration-200 hover:opacity-90 hover:shadow-lg flex-shrink-0"
           >
             Hire Me
           </Link>
