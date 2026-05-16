@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Image1 from "../../assets/project1.png"
 import Image2 from "../../assets/project2.png"
 import Image3 from "../../assets/project3.png"
-import fetchProjects from "../../api/project/apiProject"
+import fetchProjects, { reorderProjects } from "../../api/project/apiProject"
 import ProjectsSkeleton from "@/components/Projectsskeleton"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -86,9 +86,21 @@ export const Projects = () => {
 
 
 
-  const [projects, setProjects] = useState([])
+  type LocalProject = {
+    id: string;
+    title: string;
+    tags: string[];
+    description: string;
+    image: string;
+    liveDemo: string;
+    frontend: string;
+    backend: string;
+  };
+
+  const [projects, setProjects] = useState<LocalProject[]>([])
   const [loading, setLoading] = useState(true)
   console.log("project", projects)
+  const dragItem = useRef<number | null>(null)
   useEffect(() => {
     let mounted = true
     ;(async () => {
@@ -96,6 +108,7 @@ export const Projects = () => {
         const api = await fetchProjects()
         if (!mounted) return
         const mapped = api.map((p: any) => ({
+          id: p._id || p.id || p.title,
           title: p.title || 'Untitled',
           tags: Array.isArray(p.technologies) ? p.technologies : [],
           description: p.description || '',
@@ -163,9 +176,29 @@ export const Projects = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
           {projects.map((project, index) => (
             <div
-              key={project.title}
+              key={project.id}
               ref={(el) => {
                 if (el) cardsRef.current[index] = el
+              }}
+              draggable
+              onDragStart={(e) => {
+                dragItem.current = index
+                e.dataTransfer?.setData('text/plain', String(index))
+                e.dataTransfer!.effectAllowed = 'move'
+              }}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault()
+                const fromIndex = dragItem.current ?? Number(e.dataTransfer?.getData('text/plain'))
+                const toIndex = index
+                if (fromIndex === undefined || fromIndex === null || fromIndex === toIndex) return
+                const updated = [...projects]
+                const [moved] = updated.splice(fromIndex, 1)
+                updated.splice(toIndex, 0, moved)
+                setProjects(updated)
+                dragItem.current = null
+                // Persist new order to backend using IDs
+                reorderProjects(updated.map((p) => p.id)).catch((err) => console.error('reorder failed', err))
               }}
               onMouseEnter={(e) => handleCardHover(e, true)}
               onMouseLeave={(e) => handleCardHover(e, false)}

@@ -10,19 +10,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 const timeline = [
   {
-    period: "2021 — PRESENT",
-    role: "Senior Lead",
-    description: "Orchestrating microservices and high-scale React environments for enterprise-grade fintech solutions.",
+    period: "2024 — PRESENT",
+    role: "Full Stack Developer",
+    description: "Building production-grade web apps using MERN stack for real clients.",
   },
   {
-    period: "2018 — 2021",
-    role: "Specialist",
-    description: "Deep-diving into Node.js performance optimization and complex MongoDB data modeling patterns.",
+    period: "2023 — 2024",
+    role: "Learning Phase",
+    description: "Intensive self-study of JavaScript, React, Node.js and MongoDB through projects and courses.",
   },
   {
-    period: "2015 — 2018",
-    role: "Genesis Phase",
-    description: "Foundational exploration of JavaScript ecosystem and the emergence of modern web standards.",
+    period: "2023",
+    role: "Genesis",
+    description: "First line of code written. Discovered the world of web development and never looked back.",
   },
 ];
 
@@ -202,8 +202,8 @@ const About = () => {
 
             <div ref={statsRef} className="flex gap-12">
               <div className="opacity-0">
-                <div className="stat-number">08+</div>
-                <div className="stat-label">Years Experience</div>
+                <div className="stat-number">06+</div>
+                <div className="stat-label">Months Experience</div>
               </div>
               <div className="opacity-0">
                 <div className="stat-number">142</div>

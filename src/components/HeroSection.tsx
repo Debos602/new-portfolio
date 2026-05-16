@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Download } from "lucide-react";
 import gsap from "gsap";
 import codeEditorImg from "@/assets/code-editor.jpg";
 import HeroSkillsection from "./HeroSkillsection";
+import { getStats } from "@/api/stats/apiStats";
 
 
 const HeroSection = () => {
@@ -15,6 +16,9 @@ const HeroSection = () => {
   const statsRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const snippetRef = useRef<HTMLDivElement>(null);
+  const [stats, setStats] = useState<Array<{ label: string; val: string | number }>>([]);
+  const [skillsLoading, setSkillsLoading] = useState(true);
+
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -51,6 +55,31 @@ const HeroSection = () => {
 
     return () => ctx.revert();
   }, []);
+
+  useEffect(() => {
+      let mounted = true;
+      setSkillsLoading(true);
+  
+      getStats()
+        .then((data) => {
+          console.log("Fetched stats:", data);
+          if (!mounted || !data) return;
+          setStats([
+            { label: "Code Quality", val: data.codeQuality },
+            { label: "Commits/Year", val: data.commitsPerYear },
+            { label: "Projects", val: data.projects ?? data.projectsDone ?? "—" },
+            { label: "Uptime", val: data.uptime },
+          ]);
+        })
+        .catch(() => {})
+        .finally(() => {
+          if (mounted) setSkillsLoading(false);
+        });
+  
+      return () => {
+        mounted = false;
+      };
+    }, []);
 
   return (
     <section ref={sectionRef} className="bg-[#F4FAFF] overflow-x-hidden">
@@ -133,9 +162,9 @@ const HeroSection = () => {
               >
                 View Portfolio <ArrowRight size={16} />
               </Link>
-              <button className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-7 sm:py-3.5 lg:px-8 lg:py-4 rounded-full border border-border text-foreground font-medium text-sm lg:text-base transition-all duration-200 hover:bg-secondary">
+              <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/file/d/1U7iKNv02nK845ATKJeGq6IarzxzxLLKg/view?usp=sharing" className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-7 sm:py-3.5 lg:px-8 lg:py-4 rounded-full border border-border text-foreground font-medium text-sm lg:text-base transition-all duration-200 hover:bg-secondary">
                 Download CV <Download size={16} />
-              </button>
+              </a>
             </div>
           </div>
 
@@ -183,18 +212,36 @@ const HeroSection = () => {
           ref={statsRef}
           className="grid grid-cols-3 md:flex md:flex-row md:items-start gap-y-4 md:gap-x-10 lg:gap-x-16 mt-10 sm:mt-14 lg:mt-20 pt-8 sm:pt-10 border-t border-border/50"
         >
-          <div className="text-center md:text-left">
-            <div className="stat-number text-2xl sm:text-3xl lg:text-4xl font-bold">50+</div>
-            <div className="stat-label text-[8px] sm:text-sm text-muted-foreground mt-0.5">Projects Done</div>
-          </div>
-          <div className="text-center md:text-left">
-            <div className="stat-number text-2xl sm:text-3xl lg:text-4xl font-bold">12</div>
-            <div className="stat-label text-[8px] sm:text-sm text-muted-foreground mt-0.5">Countries Served</div>
-          </div>
-          <div className="text-center md:text-left">
-            <div className="stat-number text-2xl sm:text-3xl lg:text-4xl font-bold">6y+</div>
-            <div className="stat-label text-[8px] sm:text-sm text-muted-foreground mt-0.5">Experience</div>
-          </div>
+          {skillsLoading ? (
+            [0, 1, 2].map((i) => (
+              <div className="text-center md:text-left" key={i}>
+                <div className="stat-number text-2xl sm:text-3xl lg:text-4xl font-bold">—</div>
+                <div className="stat-label text-[8px] sm:text-sm text-muted-foreground mt-0.5">Loading</div>
+              </div>
+            ))
+          ) : stats.length ? (
+            stats.map((s) => (
+              <div className="text-center md:text-left" key={s.label}>
+                <div className="stat-number text-2xl sm:text-3xl lg:text-4xl font-bold">{s.val}</div>
+                <div className="stat-label text-[8px] sm:text-sm text-muted-foreground mt-0.5">{s.label}</div>
+              </div>
+            ))
+          ) : (
+            <>
+              <div className="text-center md:text-left">
+                <div className="stat-number text-2xl sm:text-3xl lg:text-4xl font-bold">50+</div>
+                <div className="stat-label text-[8px] sm:text-sm text-muted-foreground mt-0.5">Projects Done</div>
+              </div>
+              <div className="text-center md:text-left">
+                <div className="stat-number text-2xl sm:text-3xl lg:text-4xl font-bold">12</div>
+                <div className="stat-label text-[8px] sm:text-sm text-muted-foreground mt-0.5">Countries Served</div>
+              </div>
+              <div className="text-center md:text-left">
+                <div className="stat-number text-2xl sm:text-3xl lg:text-4xl font-bold">6y+</div>
+                <div className="stat-label text-[8px] sm:text-sm text-muted-foreground mt-0.5">Experience</div>
+              </div>
+            </>
+          )}
         </div>
 
        <HeroSkillsection/>

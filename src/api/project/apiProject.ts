@@ -53,3 +53,24 @@ export async function fetchProjects(): Promise<Project[]> {
 
 export default fetchProjects;
 
+/**
+ * Reorder projects on the server.
+ * Sends an array of project IDs in the desired order to the API.
+ */
+export async function reorderProjects(order: string[]): Promise<void> {
+	const base = getBaseUrl();
+	const url = `${base.replace(/\/$/, '')}/api/project/reorder`;
+	const res = await fetch(url, {
+		method: 'PATCH',
+		headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+		body: JSON.stringify({ order }),
+	});
+
+	if (!res.ok) {
+		const text = await res.text().catch(() => res.statusText || 'request failed');
+		throw new Error(`Failed to reorder projects: ${res.status} ${text}`);
+	}
+
+	// Optionally, could parse response here if needed.
+}
+
