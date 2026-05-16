@@ -162,7 +162,7 @@ const HeroSection = () => {
               >
                 View Portfolio <ArrowRight size={16} />
               </Link>
-              <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/file/d/1U7iKNv02nK845ATKJeGq6IarzxzxLLKg/view?usp=sharing" className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-7 sm:py-3.5 lg:px-8 lg:py-4 rounded-full border border-border text-foreground font-medium text-sm lg:text-base transition-all duration-200 hover:bg-secondary">
+              <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/file/d/1D1LxycLlgzFHcdQ8ns--KAqA4h9_gIz1/view?usp=sharing" className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-7 sm:py-3.5 lg:px-8 lg:py-4 rounded-full border border-border text-foreground font-medium text-sm lg:text-base transition-all duration-200 hover:bg-secondary">
                 Download CV <Download size={16} />
               </a>
             </div>
