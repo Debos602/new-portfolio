@@ -1,44 +1,12 @@
-export type Project = {
-	_id: string;
-	title: string;
-	image?: string;
-	description?: string;
-	githubLinkFrontend?: string;
-	githubLinkBackend?: string;
-	liveLink?: string;
-	technologies: string[];
-	createdAt?: string;
-	updatedAt?: string;
-	__v?: number;
-};
-
-export type ApiResponse<T> = {
-	success: boolean;
-	statusCode: number;
-	message: string;
-	data: T;
-};
-
-const DEFAULT_BASE = 'https://new-portfolio-backend-theta.vercel.app';
-
-function getBaseUrl() {
-	// Allow overriding with Vite env var `VITE_API_URL`
-	try {
-		const env = (import.meta as any).env as Record<string, any> | undefined;
-		const v = env?.VITE_API_URL;
-		return v || DEFAULT_BASE;
-	} catch {
-		return DEFAULT_BASE;
-	}
-}
+import { buildApiUrl } from '../client';
+import { Project, ApiResponse } from '../../types';
 
 /**
  * Fetches projects from the API.
  * Returns the `data` array from the API response.
  */
 export async function fetchProjects(): Promise<Project[]> {
-	const base = getBaseUrl();
-	const url = `${base.replace(/\/$/, '')}/api/project`;
+	const url = buildApiUrl('/api/project');
 	const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
 	if (!res.ok) {
 		const text = await res.text().catch(() => res.statusText || 'request failed');
@@ -60,8 +28,7 @@ export default fetchProjects;
  * Sends an array of project IDs in the desired order to the API.
  */
 export async function reorderProjects(order: string[]): Promise<void> {
-	const base = getBaseUrl();
-	const url = `${base.replace(/\/$/, '')}/api/project/reorder`;
+	const url = buildApiUrl('/api/project/reorder');
 	const res = await fetch(url, {
 		method: 'PATCH',
 		headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
