@@ -48,7 +48,9 @@ export async function fetchProjects(): Promise<Project[]> {
 	if (!json || !Array.isArray(json.data)) {
 		throw new Error('Invalid projects response');
 	}
-	return json.data;
+	console.log('Fetched projects:', json.data);
+	return json.data ;
+
 }
 
 export default fetchProjects;

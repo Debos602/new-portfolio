@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Image1 from "../../assets/project1.png"
-import Image2 from "../../assets/project2.png"
-import Image3 from "../../assets/project3.png"
 import fetchProjects, { reorderProjects } from "../../api/project/apiProject"
 import ProjectsSkeleton from "@/components/Projectsskeleton"
 
@@ -14,7 +12,9 @@ export const Projects = () => {
   const headerRef = useRef(null)
   const filtersRef = useRef(null)
   const cardsRef = useRef<HTMLDivElement[]>([])
-  const filters = ["All", "Full Stack", "Frontend", "Backend"];
+  // categories will be derived from API data; 'All' is default
+  const [categories, setCategories] = useState<string[]>(['All'])
+  const [activeFilter, setActiveFilter] = useState<string>('All')
 
   const handleCardHover = (e: React.MouseEvent<HTMLDivElement>, isHovering: boolean) => {
     gsap.to(e.currentTarget, {
@@ -95,6 +95,7 @@ export const Projects = () => {
     liveDemo: string;
     frontend: string;
     backend: string;
+    category: string;
   };
 
   const [projects, setProjects] = useState<LocalProject[]>([])
@@ -106,6 +107,7 @@ export const Projects = () => {
     ;(async () => {
       try {
         const api = await fetchProjects()
+        console.log("api projects", api)  
         if (!mounted) return
         const mapped = api.map((p: any) => ({
           id: p._id || p.id || p.title,
@@ -116,8 +118,14 @@ export const Projects = () => {
           liveDemo: p.liveLink || '',
           frontend: p.githubLinkFrontend || '',
           backend: p.githubLinkBackend || '',
+          category: p.category || 'uncategorized',
         }))
-        if (mapped.length > 0) setProjects(mapped)
+        if (mapped.length > 0) {
+          setProjects(mapped)
+          // derive categories from fetched data
+          const cats = Array.from(new Set(mapped.map((m: any) => m.category || 'uncategorized')))
+          setCategories(['All', ...cats])
+        }
           setLoading(false)
       } catch (err) {
         // keep initialProjects as fallback
@@ -161,20 +169,34 @@ export const Projects = () => {
         {/* Filter Tabs */}
         {/* Added flex-wrap and reduced gap/padding on mobile */}
         <div ref={filtersRef} className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-10 md:mb-16 px-2">
-          {filters.map((f) => (
-            <button
-              key={f}
-              className="font-heading text-base md:text-[20px] font-bold leading-[1.4] border border-[#D1D5DB] hover:bg-[#006A71] hover:text-white px-5 py-2 md:px-[32px] md:py-[11px] rounded-full duration-300"
-            >
-              {f}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const pretty = (c: string) => {
+              if (c === 'All') return 'All'
+              if (/fullstack/i.test(c)) return 'Full Stack'
+              if (/frontend/i.test(c)) return 'Frontend'
+              if (/backend/i.test(c)) return 'Backend'
+              return c.replace(/[-_]/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase())
+            }
+
+            const isActive = activeFilter === cat
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveFilter(cat)}
+                className={`font-heading text-base md:text-[20px] font-bold leading-[1.4] border px-5 py-2 md:px-[32px] md:py-[11px] rounded-full duration-300 ${isActive ? 'bg-primary text-white border-primary' : 'border-[#D1D5DB] hover:bg-[#006A71] hover:text-white'}`}
+              >
+                {pretty(cat)}
+              </button>
+            )
+          })}
         </div>
 
         {/* Project Cards */}
         {/* Already responsive with grid-cols-1 md:grid-cols-3 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-          {projects.map((project, index) => (
+          {projects
+            .filter((p) => activeFilter === 'All' || p.category === activeFilter)
+            .map((project, index) => (
             <div
               key={project.id}
               ref={(el) => {
