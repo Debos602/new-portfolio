@@ -1,4 +1,5 @@
-export const DEFAULT_API_BASE = 'http://localhost:5000';
+// export const DEFAULT_API_BASE = 'http://localhost:5000';
+export const DEFAULT_API_BASE = 'https://new-portfolio-backend-theta.vercel.app';
 
 export function getApiBase(): string {
   try {
