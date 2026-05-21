@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Image1 from "../../assets/project1.png"
-import fetchProjects, { reorderProjects } from "../../api/project/apiProject"
+import { useProjects, useReorderProjects } from '@/hooks/useProjects'
 import ProjectsSkeleton from "@/components/Projectsskeleton"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -102,44 +102,30 @@ export const Projects = () => {
   const [loading, setLoading] = useState(true)
   console.log("project", projects)
   const dragItem = useRef<number | null>(null)
-  useEffect(() => {
-    let mounted = true
-    ;(async () => {
-      try {
-        const api = await fetchProjects()
-        console.log("api projects", api)  
-        if (!mounted) return
-        const mapped = api.map((p: any) => ({
-          id: p._id || p.id || p.title,
-          title: p.title || 'Untitled',
-          tags: Array.isArray(p.technologies) ? p.technologies : [],
-          description: p.description || '',
-          image: p.image || Image1,
-          liveDemo: p.liveLink || '',
-          frontend: p.githubLinkFrontend || '',
-          backend: p.githubLinkBackend || '',
-          category: p.category || 'uncategorized',
-        }))
-        if (mapped.length > 0) {
-          setProjects(mapped)
-          // derive categories from fetched data
-          const cats = Array.from(new Set(mapped.map((m: any) => m.category || 'uncategorized')))
-          setCategories(['All', ...cats])
-        }
-          setLoading(false)
-      } catch (err) {
-        // keep initialProjects as fallback
-        // eslint-disable-next-line no-console
-        console.error('fetchProjects failed', err)
-      } finally {
-        setLoading(false)
-      }
-    })()
+  const { data, isLoading } = useProjects()
+  const reorderMutation = useReorderProjects()
 
-    return () => {
-      mounted = false
+  useEffect(() => {
+    if (!data) return
+    const mapped = data.map((p: any) => ({
+      id: p._id || p.id || p.title,
+      title: p.title || 'Untitled',
+      tags: Array.isArray(p.technologies) ? p.technologies : [],
+      description: p.description || '',
+      image: p.image || Image1,
+      liveDemo: p.liveLink || '',
+      frontend: p.githubLinkFrontend || '',
+      backend: p.githubLinkBackend || '',
+      category: p.category || 'uncategorized',
+    }))
+
+    if (mapped.length > 0) {
+      setProjects(mapped)
+      const cats = Array.from(new Set(mapped.map((m: any) => m.category || 'uncategorized')))
+      setCategories(['All', ...cats])
     }
-  }, [])
+    setLoading(false)
+  }, [data])
 
   if(loading) {
     // Show skeleton while loading real data (fallback data is still present in background)
@@ -219,8 +205,8 @@ export const Projects = () => {
                 updated.splice(toIndex, 0, moved)
                 setProjects(updated)
                 dragItem.current = null
-                // Persist new order to backend using IDs
-                reorderProjects(updated.map((p) => p.id)).catch((err) => console.error('reorder failed', err))
+                // Persist new order to backend using IDs (optimistic handled in hook)
+                reorderMutation.mutate(updated.map((p) => p.id))
               }}
               onMouseEnter={(e) => handleCardHover(e, true)}
               onMouseLeave={(e) => handleCardHover(e, false)}

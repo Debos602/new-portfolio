@@ -14,8 +14,8 @@ interface PersistenceItem {
 }
 
 gsap.registerPlugin(ScrollTrigger);
-import { getStats } from "../../api/stats/apiStats";
-import { fetchSkills } from "../../api/skill/apiSkill";
+import { useStats } from '@/hooks/useStats'
+import { useSkills } from '@/hooks/useSkills'
 import { SkillSkeleton } from "@/components/SkillsSection";
 
 const icons = [
@@ -59,7 +59,9 @@ export const Skills = () => {
   >([]);
   const [persistenceState, setPersistenceState] = useState<PersistenceItem[]>([]);
   const [devOpsState, setDevOpsState] = useState<{ label: string; dot: string }[]>([]);
-  const [skillsLoading, setSkillsLoading] = useState(true);
+  const statsQuery = useStats()
+  const skillsQuery = useSkills()
+  const skillsLoading = statsQuery.isLoading || skillsQuery.isLoading
 
   // ── GSAP animations ───────────────────────────────────────────────────────
   // Gated on !skillsLoading so refs are guaranteed to point at real DOM nodes.
@@ -192,82 +194,57 @@ export const Skills = () => {
 
   // ── Data fetching ─────────────────────────────────────────────────────────
   useEffect(() => {
-    let mounted = true;
-    setSkillsLoading(true);
-
-    getStats()
-      .then((data) => {
-        console.log("Fetched stats:", data);
-        if (!mounted || !data) return;
-        setStats([
-          { label: "Code Quality", val: data.codeQuality },
-          { label: "Commits/Year", val: data.commitsPerYear },
-          { label: "Projects", val: data.projects ?? data.projectsDone ?? "—" },
-          { label: "Uptime", val: data.uptime },
-        ]);
-      })
-      .catch(() => {})
-      .finally(() => {
-        if (mounted) setSkillsLoading(false);
-      });
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+    const data = statsQuery.data
+    if (!data) return
+    setStats([
+      { label: 'Code Quality', val: data.codeQuality },
+      { label: 'Commits/Year', val: data.commitsPerYear },
+      { label: 'Projects', val: data.projects ?? data.projectsDone ?? '—' },
+      { label: 'Uptime', val: data.uptime },
+    ])
+  }, [statsQuery.data])
 
   useEffect(() => {
-    let mounted = true;
+    const items = skillsQuery.data
+    if (!items) return
 
-    fetchSkills()
-      .then((items) => {
-        if (!mounted || !items) return;
+    const langs = items
+      .filter((s) => s.category === 'language')
+      .map((s) => ({
+        name: s.name,
+        pct: s.proficiency ?? 75,
+        color: 'from-[#006A71] to-[#8FF5FF]',
+        sub: s.proficiency ? `${s.proficiency}%` : '',
+      }))
 
-        const langs = items
-          .filter((s) => s.category === "language")
-          .map((s) => ({
-            name: s.name,
-            pct: s.proficiency ?? 75,
-            color: "from-[#006A71] to-[#8FF5FF]",
-            sub: s.proficiency ? `${s.proficiency}%` : "",
-          }));
+    const frs = items
+      .filter((s) => s.category === 'framework')
+      .map((s) => ({
+        name: s.name,
+        color: 'bg-blue-500',
+        bars: Math.min(5, Math.max(1, Math.round((s.proficiency ?? 80) / 20))),
+      }))
 
-        const frs = items
-          .filter((s) => s.category === "framework")
-          .map((s) => ({
-            name: s.name,
-            color: "bg-blue-500",
-            bars: Math.min(5, Math.max(1, Math.round((s.proficiency ?? 80) / 20))),
-          }));
+    const pers = items
+      .filter((s) => s.category === 'persistence')
+      .map((s) => ({
+        name: s.name,
+        icon: s.icon || undefined,
+        level: s.level ?? 'Proficient',
+        filled: s.proficiency ? Math.min(5, Math.round(s.proficiency / 20)) : 3,
+        badgeColor: 'bg-green-100 text-emerald-700',
+        barColor: 'bg-[#006A71]',
+      }))
 
-        const pers = items
-          .filter((s) => s.category === "persistence")
-          .map((s) => ({
-            name: s.name,
-            icon: s.icon || undefined,
-            level: s.level ?? "Proficient",
-            filled: s.proficiency ? Math.min(5, Math.round(s.proficiency / 20)) : 3,
-            badgeColor: "bg-green-100 text-emerald-700",
-            barColor: "bg-[#006A71]",
-          }));
+    const dev = items
+      .filter((s) => s.category === 'devops')
+      .map((s) => ({ label: s.name, dot: 'bg-[#006A71]/40' }))
 
-        const dev = items
-          .filter((s) => s.category === "devops")
-          .map((s) => ({ label: s.name, dot: "bg-[#006A71]/40" }));
-
-        if (mounted) {
-          if (langs.length) setLanguagesState(langs);
-          if (frs.length) setFrameworksState(frs);
-          if (pers.length) setPersistenceState(pers);
-          if (dev.length) setDevOpsState(dev);
-        }
-      })
-      .catch(() => {});
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+    if (langs.length) setLanguagesState(langs)
+    if (frs.length) setFrameworksState(frs)
+    if (pers.length) setPersistenceState(pers)
+    if (dev.length) setDevOpsState(dev)
+  }, [skillsQuery.data])
 
   // ── Render ────────────────────────────────────────────────────────────────
   if (skillsLoading) {

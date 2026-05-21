@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import bgShape from "@/assets/Background Wave Shape.png";
-import fetchExperience, { TExperience } from "@/api/experience/apiExperience";
+import { useExperience } from '@/hooks/useExperience';
+import { TExperience } from '@/types';
 import { ExperienceSkeleton } from "@/components/Experienceskeleton";
 
 
@@ -80,38 +81,14 @@ export const Experience = () => {
       if (el) desktopRowRefs.current[idx][key] = el;
     };
 
-  // ── Data ─────────────────────────────────────────────────────────────────────
-
-  const [list, setList]       = useState<MappedExperience[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState<string | null>(null);
-  
-  useEffect(() => {
-    let mounted = true;
-
-    fetchExperience()
-      .then((data) => {
-        if (!mounted) return;
-        if (data.length > 0) setList(data.map(mapToView));
-        setLoading(false);
-      })
-      .catch((err: Error) => {
-        if (!mounted) return;
-        console.error("[Experience] API error — using fallback data.", err.message);
-        setError(err.message);
-        setLoading(false);
-        // FALLBACK already set as initial state, so UI stays populated
-      });
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  // ── Data (via React Query) ──────────────────────────────────────────────────
+  const { data, isLoading, error } = useExperience();
+  const list = (data ?? []).map(mapToView);
 
   // ── GSAP ──────────────────────────────────────────────────────────────────────
 
   useEffect(() => {
-    if (loading) return; // wait until real data is in place before pinning triggers
+    if (isLoading) return; // wait until real data is in place before pinning triggers
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
@@ -187,12 +164,11 @@ export const Experience = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [loading]); // re-run once loading flips to false
+  }, [isLoading]); // re-run once loading flips to false
 
   // ── Render ────────────────────────────────────────────────────────────────────
 
-  if(loading) {
-    // Show skeleton while loading real data (fallback data is still present in background)
+  if (isLoading) {
     return <ExperienceSkeleton />;
   }
 

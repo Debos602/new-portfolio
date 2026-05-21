@@ -4,7 +4,7 @@ import { ArrowRight, Download } from "lucide-react";
 import gsap from "gsap";
 import codeEditorImg from "@/assets/code-editor.jpg";
 import HeroSkillsection from "./HeroSkillsection";
-import { getStats } from "@/api/stats/apiStats";
+import { useStats } from '@/hooks/useStats'
 
 
 const HeroSection = () => {
@@ -17,7 +17,8 @@ const HeroSection = () => {
   const badgeRef = useRef<HTMLDivElement>(null);
   const snippetRef = useRef<HTMLDivElement>(null);
   const [stats, setStats] = useState<Array<{ label: string; val: string | number }>>([]);
-  const [skillsLoading, setSkillsLoading] = useState(true);
+  const statsQuery = useStats()
+  const skillsLoading = statsQuery.isLoading
 
 
   useEffect(() => {
@@ -57,29 +58,15 @@ const HeroSection = () => {
   }, []);
 
   useEffect(() => {
-      let mounted = true;
-      setSkillsLoading(true);
-  
-      getStats()
-        .then((data) => {
-          console.log("Fetched stats:", data);
-          if (!mounted || !data) return;
-          setStats([
-            { label: "Code Quality", val: data.codeQuality },
-            { label: "Commits/Year", val: data.commitsPerYear },
-            { label: "Projects", val: data.projects ?? data.projectsDone ?? "—" },
-            { label: "Uptime", val: data.uptime },
-          ]);
-        })
-        .catch(() => {})
-        .finally(() => {
-          if (mounted) setSkillsLoading(false);
-        });
-  
-      return () => {
-        mounted = false;
-      };
-    }, []);
+    const data = statsQuery.data
+    if (!data) return
+    setStats([
+      { label: 'Code Quality', val: data.codeQuality },
+      { label: 'Commits/Year', val: data.commitsPerYear },
+      { label: 'Projects', val: data.projects ?? data.projectsDone ?? '—' },
+      { label: 'Uptime', val: data.uptime },
+    ])
+  }, [statsQuery.data])
 
   return (
     <section ref={sectionRef} className="bg-[#F4FAFF] overflow-x-hidden">
